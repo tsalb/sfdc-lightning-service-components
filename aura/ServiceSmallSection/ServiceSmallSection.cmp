@@ -1,0 +1,20 @@
+<aura:component implements="flexipage:availableForAllPageTypes">
+
+  <aura:method name="loadContact" action="{! c.handleLoadContact }">
+    <aura:attribute name="contactIdFromCaller" type="String"/>
+  </aura:method>
+
+  <aura:attribute name="contactId" type="String"/>
+
+  <aura:if isTrue="{! v.contactId }">
+    <lightning:recordViewForm recordId="{! v.contactId }" objectApiName="Contact">
+      <div class="slds-box slds-theme_default">
+        <lightning:outputField fieldName="Name" />
+        <lightning:outputField fieldName="Phone"/>
+        <lightning:outputField fieldName="Email" />
+        <lightning:outputField fieldName="Birthdate" />
+      </div>
+    </lightning:recordViewForm>
+  </aura:if>
+
+</aura:component>

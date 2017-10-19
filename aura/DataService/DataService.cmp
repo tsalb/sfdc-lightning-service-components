@@ -1,0 +1,15 @@
+<aura:component controller="DataServiceCtrl">
+
+  <!-- AccountComponentOne.cmp -->
+  <aura:method name="fetchAccount" action="{! c.handleFetchAccount }">
+    <aura:attribute name="accountIdEventArg" type="String"/>
+    <aura:attribute name="callback" type="function"/>
+  </aura:method>
+
+  <!-- AccountComponentTwo.cmp -->
+  <aura:method name="fetchContactsByAccountId" action="{! c.handleFetchContactsByAccountId }">
+    <aura:attribute name="accountIdEventArg" type="String"/>
+    <aura:attribute name="callback" type="function"/>
+  </aura:method>
+
+</aura:component>

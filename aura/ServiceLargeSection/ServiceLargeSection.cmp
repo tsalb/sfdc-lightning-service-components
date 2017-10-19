@@ -1,0 +1,31 @@
+<aura:component implements="flexipage:availableForAllPageTypes">
+
+  <!-- Service Components boilerplate -->
+  <c:DataService aura:id="service_large"/>
+  <!-- this component doesn't fire events! -->
+
+  <aura:attribute name="tableData" type="Object"/>
+  <aura:attribute name="tableColumns" type="List"/>
+  <aura:attribute name="rowSelected" type="Boolean"/>
+  
+  <aura:handler event="c:ServiceAppEvent" action="{! c.handleApplicationEvent }"/>
+
+  <lightning:layout multipleRows="false">
+    <lightning:layoutItem class="{! v.tableData ? 'slds-show' : 'slds-hide'}" size="7">
+      <lightning:card class="slds-m-right_small">
+        <lightning:datatable aura:id="searchTable"
+          data="{! v.tableData }" 
+          columns="{! v.tableColumns }" 
+          keyField="Id"
+          onrowselection="{! c.handleRowSelection }"
+          />
+      </lightning:card>
+    </lightning:layoutItem>
+    <lightning:layoutItem class="{! v.rowSelected ? 'slds-show' : 'slds-hide'}" size="5">
+      <lightning:card >
+        <c:ServiceSmallSection aura:id="smallSectionCard"/>
+      </lightning:card>
+    </lightning:layoutItem>
+  </lightning:layout>
+
+</aura:component>
