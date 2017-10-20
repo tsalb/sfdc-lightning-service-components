@@ -1,10 +1,5 @@
 ({
   handleAccountLookupChange : function(component, event, helper) {
-    // I suffix my service compoennts because it's possible to shorthand this.
-    // so when shorthanding, you can still read specifically which service
-    // component you're calling. I found that this also avoided some issues with
-    // component.find("service") that cropped up when nesting components that had 
-    // the same service component
     var service = component.find("service_header");
     var eventService = component.find("eventService_header");
     var lookedUpAccountId = component.get("v.con.AccountId");
@@ -24,11 +19,7 @@
           eventService.utilShowToast(null, "Account Found!", "info");
           eventService.fireAppEvent("HEADER_ACCOUNT_SET", lookedUpAccountId);
         } else {
-          eventService.utilShowToast(
-            "Error",
-            "Fetching Account: "+error[0].message,
-            "error"
-          );
+          // Let inputField handle the error
         }
       })
     );
