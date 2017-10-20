@@ -18,9 +18,10 @@
   
   <lightning:card >
     <aura:set attribute="title">
-      <aura:if isTrue="{! v.acc }">
-        <lightning:formattedText value="{! v.acc.Name + ' - ' + v.acc.Industry }" />
-      </aura:if>
+      <lightning:formattedText 
+        class="{! empty(v.acc) ? 'slds-hide' : 'slds-show'}"
+        value="{! v.acc.Name + ' - ' + v.acc.Industry }"
+        />
     </aura:set>
 
     <lightning:layout horizontalAlign="center" multipleRows="false">
