@@ -6,7 +6,7 @@
 
   <aura:attribute name="contactId" type="String"/>
 
-  <aura:if isTrue="{! v.contactId }">
+  <aura:if isTrue="{! !empty(v.contactId) }">
     <lightning:recordViewForm recordId="{! v.contactId }" objectApiName="Contact">
       <div class="slds-box slds-theme_default">
         <lightning:outputField fieldName="Name" />

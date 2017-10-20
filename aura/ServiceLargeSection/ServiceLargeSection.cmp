@@ -11,7 +11,7 @@
   <aura:handler event="c:ServiceAppEvent" action="{! c.handleApplicationEvent }"/>
 
   <lightning:layout multipleRows="false">
-    <lightning:layoutItem class="{! v.tableData ? 'slds-show' : 'slds-hide'}" size="7">
+    <lightning:layoutItem class="{! empty(v.tableData) ? 'slds-hide' : 'slds-show'}" size="7">
       <lightning:card class="slds-m-right_small">
         <lightning:datatable aura:id="searchTable"
           data="{! v.tableData }" 
