@@ -2,7 +2,7 @@
 
 This design pattern is an implementation of the following artice found on salesforce dev blogs: https://developer.salesforce.com/blogs/developer-relations/2016/12/lightning-components-code-sharing.html
 
-We can more fully leverage the new Winter 18 dynamic lightning page layouts using this pattern. Since it's now possible to hand the conditional render of components to the platform and place small, useful components on regular lightning pages that can mutate state or show/hide based on certain conditions of the record.
+We can more fully leverage the new Winter 18 dynamic lightning page layouts using this pattern. Since it's now possible to handle conditional render of components (both native and custom) via platform config, it makes sense to move conditional render of an entire component "card" to platform config.
 
 The platform's new dynamic lightning page layouts can be leveraged to "re-configure" the page more akin to a SPA when paired with something like an object's `Status__c` field. Using this design pattern, we can leverage both native and custom lightning components on a record home page and use `Status__c` to show a different set of components on each status.
 
