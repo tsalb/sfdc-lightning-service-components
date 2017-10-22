@@ -13,7 +13,8 @@
           eventService.utilShowToast(
             "error",
             "No Accounts in org!",
-            "error");
+            "error"
+          );
         }
       })
     );
