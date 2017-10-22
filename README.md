@@ -8,7 +8,7 @@ The platform's new dynamic lightning page layouts can be leveraged to "re-config
 
 The Service Component design pattern makes it easy for custom components placed separately from each other (not having any parent-child hierarchy) to more easily share a single Apex Controller and through key-value event-ing, more easily communicate with one another when there is no hierarchy.
 
-Having no component hierarchy makes is more simple to place components anywhere on a lightning page and allowing more flexibility of creating a dynamic user experience out of mixing native and custom components.
+Having no component hierarchy makes it more simple to place components anywhere on a lightning page and allowing more flexibility of creating a dynamic user experience out of mixing native and custom components.
 
 ---
 
