@@ -1,32 +1,28 @@
 <aura:component implements="flexipage:availableForAllPageTypes">
 
   <!-- Service Components boilerplate -->
-  <c:DataService aura:id="service_header"/> <!-- including this means the needs data from server -->
-  <c:EventService aura:id="eventService_header"/> <!-- including this means this component needs to fire events -->
+  <c:DataService aura:id="service_header"/>
+  <c:EventService aura:id="eventService_header"/>
 
-  <!-- Component attributes -->
-  <!-- NOTE:
-    We're creating a Contact here only becuase I want the Account Lookup binding in
-    force:inputField since there is no lightning:inputField yet. We want the 
-    looked up Account Id for demo purposes on how we can use it in other components.
-  -->
-  <aura:attribute name="con" type="Contact" default="{ 'sobjectType': 'Contact' }"/>
-  <aura:attribute name="acc" type="Account"/>
-  
-  <!-- Handler for force:InputField change, lookup change event is broken -->
-  <aura:handler name="change" value="{! v.con.AccountId }" action="{! c.handleAccountLookupChange }"/>
+  <aura:attribute name="topAccounts" type="List" default="[]"/>
+
+  <aura:handler name="init" value="{! this }" action="{! c.doInit }"/>
   
   <lightning:card >
     <aura:set attribute="title">
-      <lightning:formattedText 
-        class="{! empty(v.acc) ? 'slds-hide' : 'slds-show'}"
-        value="{! v.acc.Name + ' - ' + v.acc.Industry }"
-        />
+      Top Accounts with Contacts
     </aura:set>
 
     <lightning:layout horizontalAlign="center" multipleRows="false">
       <lightning:layoutItem padding="horizontal-medium" flexibility="grow" size="6">
-        <force:inputField aura:id="lookupInputField" value="{! v.con.AccountId }"/>
+        <lightning:combobox 
+          aura:id="selectItem"
+          name="Accounts" 
+          label="Accounts"
+          placeholder="Choose an Account"
+          onchange="{! c.handleAccountOptionSelected }"
+          options="{! v.topAccounts }"
+          />
       </lightning:layoutItem>
     </lightning:layout>
 

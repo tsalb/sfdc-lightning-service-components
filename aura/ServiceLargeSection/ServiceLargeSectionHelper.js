@@ -5,20 +5,44 @@
         label: "Name",
         fieldName: "Name",
         type: "text",
-        initialWidth: 200
+        initialWidth: 130
       },
       {
         label: "Email",
         fieldName: "Email",
         type: "email",
-        initialWidth: 300
+        initialWidth: 170
       },
       {
         label: "Phone",
         fieldName: "Phone",
         type: "phone",
+        initialWidth: 130
+      },
+      {
+        label: "Street",
+        fieldName: "MailingStreet",
+        type: "text",
         initialWidth: 200
       },
+      {
+        label: "City",
+        fieldName: "MailingCity",
+        type: "text",
+        initialWidth: 100
+      },
+      {
+        label: "State",
+        fieldName: "MailingState",
+        type: "text",
+        initialWidth: 60
+      },
+      {
+        label: "Zip",
+        fieldName: "MailingPostalCode",
+        type: "text",
+        initialWidth: 90
+      }
     ];
     return tableColumns;
   },
