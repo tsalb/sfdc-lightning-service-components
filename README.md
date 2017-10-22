@@ -20,7 +20,7 @@ This will be passed to `helper.dispatch()` to make the asynchronous callout.
 
 `EventService.cmp` which encapsulates a key-value pair (optional value) model for both application and component events. This component registers and fires generic events which need to be parsed by the handling component(s) via key-value.
 
-This pattern doesn't rely on 3rd party libraries.
+This sample app doesn't showcase dynamic page layouts and conditional render based on `Status__c` or similar. It's meant to show only Service Component architecture and usage.
 
 ---
 
