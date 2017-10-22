@@ -1,28 +1,27 @@
 ({
-  handleAccountLookupChange : function(component, event, helper) {
+  doInit: function (component, event, helper) {
     var service = component.find("service_header");
     var eventService = component.find("eventService_header");
-    var lookedUpAccountId = component.get("v.con.AccountId");
 
-    if (!lookedUpAccountId) {
-      component.set("v.acc", null);
-      eventService.fireAppEvent("HEADER_ACCOUNT_BLANK");
-      return false;
-    }
-
-    service.fetchAccount(
-      lookedUpAccountId,
+    service.fetchAccountCombobox(
       $A.getCallback(function(error, data) {
         // This returns whatever datatype is specified in the controller
         if (data) {
-          component.set("v.acc", data);
-          eventService.utilShowToast(null, "Account Found!", "info");
-          eventService.fireAppEvent("HEADER_ACCOUNT_SET", lookedUpAccountId);
+          var parsedData = JSON.parse(data);
+          component.set("v.topAccounts", parsedData.items);
         } else {
-          // Let inputField handle the error
+          eventService.utilShowToast(
+            "error",
+            "No Accounts in org!",
+            "error");
         }
       })
     );
+  },
+  handleAccountOptionSelected : function(component, event, helper) {
+    var selectedOptionValue = event.getParam("value");
+
+    component.find("eventService_header").fireAppEvent("ACCOUNT_ID_SELECTED", selectedOptionValue);
   },
   handleClearTableOnly : function(component, event, helper) {
     component.find("eventService_header").fireAppEvent("HEADER_CLEARTABLE");

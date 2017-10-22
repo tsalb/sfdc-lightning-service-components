@@ -1,7 +1,6 @@
 <aura:component >
 
-  <!-- Event types this component can fire -->
-  <aura:registerEvent name="ServiceAppEvent" type="c:ServiceAppEvent"/> <!-- name is required, but unused, for app events -->
+  <aura:registerEvent name="ServiceAppEvent" type="c:ServiceAppEvent"/>
   <aura:registerEvent name="ServiceCompEvent" type="c:ServiceCompEvent"/>
 
   <aura:method name="fireAppEvent" action="{! c.handleFireApplicationEvent }">

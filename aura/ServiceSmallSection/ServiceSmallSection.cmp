@@ -1,20 +1,69 @@
 <aura:component implements="flexipage:availableForAllPageTypes">
 
-  <aura:method name="loadContact" action="{! c.handleLoadContact }">
-    <aura:attribute name="contactIdFromCaller" type="String"/>
-  </aura:method>
+  <!-- Service Components boilerplate -->
+  <c:DataService aura:id="service_small"/>
+  <c:EventService aura:id="eventService_small"/>
 
-  <aura:attribute name="contactId" type="String"/>
+  <aura:attribute name="contacts" type="Object[]"/>
+  <aura:attribute name="contactMailingStreet" type="String"/>
+  <aura:attribute name="contactMailingCity" type="String"/>
+  <aura:attribute name="contactMailingState" type="String"/>
+  <aura:attribute name="contactMailingZip" type="Integer"/>
+ 
+  <aura:handler event="c:ServiceAppEvent" action="{! c.handleApplicationEvent }"/>
 
-  <aura:if isTrue="{! !empty(v.contactId) }">
-    <lightning:recordViewForm recordId="{! v.contactId }" objectApiName="Contact">
-      <div class="slds-box slds-theme_default">
-        <lightning:outputField fieldName="Name" />
-        <lightning:outputField fieldName="Phone"/>
-        <lightning:outputField fieldName="Email" />
-        <lightning:outputField fieldName="Birthdate" />
-      </div>
-    </lightning:recordViewForm>
+  <aura:if isTrue="{! !empty(v.contacts) }">
+    <lightning:card>
+      <aura:set attribute="title">
+        {! v.contacts.length + ' selected'}
+      </aura:set>
+
+      <aura:set attribute="body">
+        <lightning:layout horizontalAlign="start" multipleRows="true">
+          <lightning:layoutItem padding="horizontal-small" size="12">
+            <lightning:input 
+              aura:id="contactField" 
+              name="mailingStreet" 
+              label="Street"
+              value="{! v.contactMailingStreet }"
+              />
+          </lightning:layoutItem>
+          <lightning:layoutItem padding="horizontal-small" size="6">
+            <lightning:input 
+              aura:id="contactField" 
+              name="mailingCity" 
+              label="City"
+              value="{! v.contactMailingCity }"
+              />
+          </lightning:layoutItem>
+          <lightning:layoutItem padding="horizontal-small" size="2">
+            <lightning:input 
+              aura:id="contactField" 
+              name="mailingState" 
+              label="State"
+              value="{! v.contactMailingState }"
+              />
+          </lightning:layoutItem>
+          <lightning:layoutItem padding="horizontal-small" size="4">
+            <lightning:input 
+              aura:id="contactField" 
+              name="mailingZip" 
+              label="Zip"
+              value="{! v.contactMailingZip }"
+              />
+          </lightning:layoutItem>
+        </lightning:layout>
+      </aura:set>
+
+      <aura:set attribute="actions">
+        <lightning:button 
+          label="Update Mailing Address" 
+          variant="brand" 
+          onclick="{! c.handleUpdateMailingAddress }"
+          />
+      </aura:set>
+
+    </lightning:card>
   </aura:if>
 
 </aura:component>
