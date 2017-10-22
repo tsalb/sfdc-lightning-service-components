@@ -4,17 +4,20 @@
         <componentInstances>
             <componentName>ServiceHeader</componentName>
         </componentInstances>
-        <componentInstances>
-            <componentName>ServiceLargeSection</componentName>
-        </componentInstances>
         <name>region1</name>
         <type>Region</type>
     </flexiPageRegions>
     <flexiPageRegions>
+        <componentInstances>
+            <componentName>ServiceLargeSection</componentName>
+        </componentInstances>
         <name>region2</name>
         <type>Region</type>
     </flexiPageRegions>
     <flexiPageRegions>
+        <componentInstances>
+            <componentName>ServiceSmallSection</componentName>
+        </componentInstances>
         <name>region3</name>
         <type>Region</type>
     </flexiPageRegions>
