@@ -24,7 +24,7 @@ This pattern doesn't rely on 3rd party libraries.
 
 ---
 
-### DataService Usage Example:
+## DataService Usage Example:
 
 Drop this into a component that needs serverside data:
 ```html
@@ -52,7 +52,7 @@ doInit: function (component, event, helper) {
 ```
 
 ## Wiring Up DataService
-Notice the method call here in `service.fetchAccountCombobox`. This is something that is defined in the Service Component like this. Notice this method doesn't have any parameters, only a callback:
+Notice the `service.fetchAccountCombobox` method call above. This is something that is defined in the Service Component like below. Notice this method doesn't have any parameters, only a callback:
 ```html
 <!-- DataService.cmp -->
 <aura:component controller="DataServiceCtrl">
