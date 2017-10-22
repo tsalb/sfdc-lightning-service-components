@@ -28,7 +28,7 @@ This sample app doesn't showcase dynamic page layouts and conditional render bas
 
 Drop this into a component that needs serverside data:
 ```html
-<!-- ServerHeader.cmp -->
+<!-- ServiceHeader.cmp -->
 <aura:component implements="flexipage:availableForAllPageTypes">
   <c:DataService aura:id="service_header"/> 
   <aura:handler name="init" value="{! this }" action="{! c.doInit }"/>
@@ -37,7 +37,7 @@ Drop this into a component that needs serverside data:
 
 And on the component's controller:
 ```javascript
-// ServerHeaderController.js
+// ServiceHeaderController.js
 doInit: function (component, event, helper) {
   var service = component.find("service_header");
 
