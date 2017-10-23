@@ -1,5 +1,5 @@
 ({
-  doInit: function (component, event, helper) {
+  doInit: function (component) {
     var service = component.find("service_header");
     var eventService = component.find("eventService_header");
 
@@ -19,12 +19,12 @@
       })
     );
   },
-  handleAccountOptionSelected : function(component, event, helper) {
+  handleAccountOptionSelected : function(component, event) {
     var selectedOptionValue = event.getParam("value");
 
     component.find("eventService_header").fireAppEvent("ACCOUNT_ID_SELECTED", selectedOptionValue);
   },
-  handleClearTableOnly : function(component, event, helper) {
+  handleClearTableOnly : function(component) {
     component.find("eventService_header").fireAppEvent("HEADER_CLEARTABLE");
   },
 })
