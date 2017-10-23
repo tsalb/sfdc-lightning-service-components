@@ -1,6 +1,7 @@
 ({
   handleUpdateMailingAddress : function(component) {
     var contactList = component.get("v.contacts");
+    var eventService = component.find("eventService_small");
 
     component.find("service_small").updateMultiContactAddress(
       contactList,
@@ -10,10 +11,18 @@
       component.get("v.contactMailingZip"),
       $A.getCallback(function(error, data) {
         if (data) {
-          component.find("eventService_small").fireAppEvent("CONTACTS_UPDATED", contactList[0].AccountId);
+          eventService.fireAppEvent("CONTACTS_UPDATED", contactList[0].AccountId);
         } else {
-          // Fail silently
           console.log(error);
+          // Fail gracefully
+          if (error.length > 0 && error[0].hasOwnProperty('message'))
+          {
+            eventService.utilShowToast(
+              "error",
+              error[0].message,
+              "error"
+            );
+          }
         }
       })
     );
