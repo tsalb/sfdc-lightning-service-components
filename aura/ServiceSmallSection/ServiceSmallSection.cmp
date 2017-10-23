@@ -21,32 +21,28 @@
       <aura:set attribute="body">
         <lightning:layout horizontalAlign="start" multipleRows="true">
           <lightning:layoutItem padding="horizontal-small" size="12">
-            <lightning:input 
-              aura:id="contactField" 
+            <lightning:input aura:id="contactField" 
               name="mailingStreet" 
               label="Street"
               value="{! v.contactMailingStreet }"
               />
           </lightning:layoutItem>
           <lightning:layoutItem padding="horizontal-small" size="6">
-            <lightning:input 
-              aura:id="contactField" 
+            <lightning:input aura:id="contactField" 
               name="mailingCity" 
               label="City"
               value="{! v.contactMailingCity }"
               />
           </lightning:layoutItem>
           <lightning:layoutItem padding="horizontal-small" size="2">
-            <lightning:input 
-              aura:id="contactField" 
+            <lightning:input aura:id="contactField" 
               name="mailingState" 
               label="State"
               value="{! v.contactMailingState }"
               />
           </lightning:layoutItem>
           <lightning:layoutItem padding="horizontal-small" size="4">
-            <lightning:input 
-              aura:id="contactField" 
+            <lightning:input aura:id="contactField" 
               name="mailingZip" 
               label="Zip"
               value="{! v.contactMailingZip }"
@@ -56,8 +52,7 @@
       </aura:set>
 
       <aura:set attribute="actions">
-        <lightning:button 
-          label="Update Mailing Address" 
+        <lightning:button label="Update Mailing Address" 
           variant="brand" 
           onclick="{! c.handleUpdateMailingAddress }"
           />

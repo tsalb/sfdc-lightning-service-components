@@ -1,5 +1,4 @@
 ({
-  // Saves on boilerplate
   dispatchAction : function(component, action, params) {
     action.setCallback(this, function(response) {
       if (response.getState() === "SUCCESS") {
