@@ -5,14 +5,14 @@ public with sharing class DataServiceCtrl {
     Data valueLabels = new Data();
 
     List<AggregateResult> aggList = new List<AggregateResult>([
-      SELECT 
-        AccountId accId, 
+      SELECT
+        AccountId accId,
         Account.Name accName
       FROM
-        Contact 
-      GROUP BY 
+        Contact
+      GROUP BY
         AccountId, Account.Name
-      HAVING 
+      HAVING
         count(Name) > 0
       ORDER BY
         count(Name) DESC
@@ -22,7 +22,7 @@ public with sharing class DataServiceCtrl {
     for (AggregateResult ar : aggList) {
       valueLabels.items.add(new Item((String)ar.get('accId'), (String)ar.get('accName')));
     }
-    
+
     //we need to serialize this because lightning cant have @AuraEnabled on inner classes
     return JSON.serialize(valueLabels);
   }
@@ -31,7 +31,7 @@ public with sharing class DataServiceCtrl {
   public static List<Contact> getContactsByAccountId(String accountId) {
     try {
       return [
-        SELECT 
+        SELECT
           Name,
           Email,
           Phone,
@@ -41,9 +41,9 @@ public with sharing class DataServiceCtrl {
           MailingPostalCode,
           AccountId,
           Id
-        FROM 
-          Contact 
-        WHERE 
+        FROM
+          Contact
+        WHERE
           AccountId =: accountId
       ];
     } catch (Exception e) {
@@ -55,15 +55,16 @@ public with sharing class DataServiceCtrl {
   public static Boolean updateMultiContactAddress(List<Contact> conList, String conStreet, String conCity, String conState, String conZip) {
     System.debug('updateMultiContactAddress conList is: '+conList);
 
+    // Fix for person accounts (INVALID_FIELD_FOR_INSERT_UPDATE, Account: bad field names on insert/update call: AccountId: [ AccountId])
+    // Create new instance for each record
+    List <Contact> contactsToUpdate = new List <Contact> ();
+
     for (Contact c : conList) {
-      c.MailingStreet = conStreet;
-      c.MailingCity = conCity;
-      c.MailingState = conState;
-      c.MailingPostalCode = conZip;
+      contactsToUpdate.add(new Contact(Id = c.Id, MailingStreet = conStreet, MailingCity = conCity, MailingState = conState, MailingPostalCode = conZip));
     }
 
     try {
-      update conList;
+      update contactsToUpdate;
       return true;
     } catch (Exception e) {
       throw new AuraHandledException(e.getMessage());
