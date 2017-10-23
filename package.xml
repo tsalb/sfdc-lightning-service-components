@@ -15,8 +15,20 @@
         <name>AuraDefinitionBundle</name>
     </types>
     <types>
+        <members>Service_Components</members>
+        <name>CustomApplication</name>
+    </types>
+    <types>
+        <members>SC_Sample_App</members>
+        <name>CustomTab</name>
+    </types>
+    <types>
         <members>Service_Components_Hello_World</members>
         <name>FlexiPage</name>
+    </types>
+    <types>
+        <members>Admin</members>
+        <name>Profile</name>
     </types>
     <version>41.0</version>
 </Package>
