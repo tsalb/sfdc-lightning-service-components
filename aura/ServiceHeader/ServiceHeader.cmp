@@ -8,15 +8,14 @@
 
   <aura:handler name="init" value="{! this }" action="{! c.doInit }"/>
   
-  <lightning:card >
+  <lightning:card>
     <aura:set attribute="title">
       Top Accounts with Contacts
     </aura:set>
 
     <lightning:layout horizontalAlign="center" multipleRows="false">
       <lightning:layoutItem padding="horizontal-medium" flexibility="grow" size="6">
-        <lightning:combobox 
-          aura:id="selectItem"
+        <lightning:combobox aura:id="selectItem"
           name="Accounts" 
           label="Accounts"
           placeholder="Choose an Account"
