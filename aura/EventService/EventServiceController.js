@@ -1,5 +1,5 @@
 ({
-  handleFireApplicationEvent : function(component, event, helper) {
+  handleFireApplicationEvent : function(component, event) {
     var params = event.getParam("arguments");
     var appEvent = $A.get("e.c:ServiceAppEvent");
     
@@ -10,7 +10,7 @@
     
     appEvent.fire();
   },
-  handleFireComponentEvent : function(component, event, helper) {
+  handleFireComponentEvent : function(component, event) {
     var params = event.getParam("arguments");
     var compEvent = component.getEvent("ServiceCompEvent");
     

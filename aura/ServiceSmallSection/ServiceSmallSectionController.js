@@ -1,5 +1,5 @@
 ({
-  handleUpdateMailingAddress : function(component, event, helper) {
+  handleUpdateMailingAddress : function(component) {
     var contactList = component.get("v.contacts");
 
     component.find("service_small").updateMultiContactAddress(
@@ -18,7 +18,7 @@
       })
     );
   },
-  handleApplicationEvent : function(component, event, helper) {
+  handleApplicationEvent : function(component, event) {
     var params = event.getParams();
 
     if (params.appEventKey == "CONTACTS_SELECTED") {

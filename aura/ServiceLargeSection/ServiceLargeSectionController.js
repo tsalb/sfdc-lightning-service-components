@@ -1,5 +1,5 @@
 ({
-  handleRowSelection : function(component, event, helper) {
+  handleRowSelection : function(component) {
     var selectedArr = component.find("searchTable").getSelectedRows();
     
     component.find("eventService_large").fireAppEvent("CONTACTS_SELECTED", selectedArr);
