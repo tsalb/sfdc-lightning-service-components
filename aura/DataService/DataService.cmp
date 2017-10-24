@@ -1,5 +1,10 @@
 <aura:component controller="DataServiceCtrl">
 
+  <!-- ServiceProgressIndicator -->
+  <aura:method name="fetchSteps" action="{! c.handleFetchSteps }">
+    <aura:attribute name="callback" type="function"/>
+  </aura:method>
+
   <!-- ServiceHeader.cmp -->
   <aura:method name="fetchAccountCombobox" action="{! c.handleFetchAccountCombobox }">
     <aura:attribute name="callback" type="function"/>
