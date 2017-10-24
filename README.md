@@ -6,7 +6,7 @@ We can more fully leverage the new Winter 18 dynamic lightning page layouts usin
 
 The platform's new dynamic lightning page layouts can be leveraged to "re-configure" the page more akin to a SPA when paired with something like an object's `Status__c` field. Using this design pattern, we can leverage both native and custom lightning components on a record home page and use `Status__c` to show a different set of components on each status.
 
-The Service Component design pattern makes it easy for custom components placed separately from each other (not having any parent-child hierarchy) to more easily share a single Apex Controller and through key-value event-ing, more easily communicate with one another when there is no hierarchy.
+The Service Component design pattern makes it easy for custom components placed separately from each other (not having any parent-child hierarchy) to easily share a single Apex Controller and reduce redundancy of inter-component communication through key-value events.
 
 Having no component hierarchy makes it more simple to place components anywhere on a lightning page and allowing more flexibility of creating a dynamic user experience out of mixing native and custom components.
 
