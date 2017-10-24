@@ -1,0 +1,17 @@
+<aura:component>
+  <c:DataService aura:id="service_progress"/>
+
+  <aura:method name="nextStep" action="{! c.handleNextStep }"/>
+  <aura:method name="previousStep" action="{! c.handlePreviousStep }"/>
+  <aura:method name="resetSteps" action="{! c.handleResetSteps }"/>
+
+  <aura:attribute name="valueToStepMap" type="Map"/>
+  <aura:attribute name="progressIndicator" type="Aura.Component[]"/>
+
+  <aura:handler event="c:ServiceAppEvent" action="{! c.handleApplicationEvent }"/>
+
+  <aura:handler name="init" value="{! this }" action="{! c.doInit }"/>
+
+  {! v.progressIndicator }
+
+</aura:component>

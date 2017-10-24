@@ -13,8 +13,11 @@
       Top Accounts with Contacts
     </aura:set>
 
-    <lightning:layout horizontalAlign="center" multipleRows="false">
-      <lightning:layoutItem padding="horizontal-medium" flexibility="grow" size="6">
+    <lightning:layout horizontalAlign="center" multipleRows="true">
+      <lightning:layoutItem class="slds-m-bottom_medium" size="10">
+        <c:ServiceProgressIndicator/>
+      </lightning:layoutItem>
+      <lightning:layoutItem padding="horizontal-medium" size="5">
         <lightning:combobox aura:id="selectItem"
           name="Accounts" 
           label="Accounts"

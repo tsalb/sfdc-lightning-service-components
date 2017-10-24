@@ -1,6 +1,17 @@
 public with sharing class DataServiceCtrl {
 
   @AuraEnabled
+  public static String getServiceAppSteps() {
+    Data valueLabels = new Data();
+
+    valueLabels.items.add(new Item('step1', 'Choose Account'));
+    valueLabels.items.add(new Item('step2', 'Select Contact'));
+    valueLabels.items.add(new Item('step3', 'Update Address'));
+
+    return JSON.serialize(valueLabels);
+  }
+
+  @AuraEnabled
   public static String getAccountOptions() {
     Data valueLabels = new Data();
 
