@@ -1,4 +1,9 @@
 ({
+  handleFetchSteps : function(component, event, helper) {
+    var params = event.getParam("arguments");
+    var action = component.get("c.getServiceAppSteps");
+    helper.dispatchAction(component, action, params);
+  },
   handleFetchAccountCombobox : function(component, event, helper) {
     var params = event.getParam("arguments");
     var action = component.get("c.getAccountOptions");
