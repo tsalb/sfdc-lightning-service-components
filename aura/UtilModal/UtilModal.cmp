@@ -1,0 +1,29 @@
+<aura:component>
+
+  <aura:method name="open" action="{! c.handleOpenModal }"/>
+  <aura:method name="close" action="{! c.handleCloseModal }"/>
+
+  <aura:attribute name="header" type="Aura.Component[]"/>
+  <aura:attribute name="action" type="Aura.Component[]"/>
+
+  <section aura:id="modal-main" class="slds-modal slds-m-top_x-large">
+    <div class="slds-modal__container">
+      <aura:if isTrue="{! not(empty( v.header )) }">
+        <header class="slds-modal__header">
+          <h2 class="slds-text-heading_medium slds-hyphenate">
+            {! v.header }
+          </h2>
+        </header>
+      </aura:if>
+      <div class="slds-modal__content slds-p-around_medium">
+        {! v.body }
+      </div>
+      <footer class="slds-modal__footer">
+        <lightning:button label="Cancel" onclick="{! c.handleCloseModal }"/>
+        {! v.action }
+      </footer>
+    </div>
+  </section>
+  <div aura:id="modal-backdrop" class="slds-backdrop"></div>
+
+</aura:component>
