@@ -27,11 +27,4 @@
       })
     );
   },
-  handleApplicationEvent : function(component, event) {
-    var params = event.getParams();
-
-    if (params.appEventKey == "CONTACTS_SELECTED") {
-      component.set("v.contacts", params.appEventValue);
-    }
-  },
 })

@@ -11,7 +11,7 @@
           component.set("v.topAccounts", parsedData.items);
         } else {
           eventService.utilShowToast(
-            "error",
+            null,
             "No Accounts in org!",
             "error"
           );

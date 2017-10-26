@@ -13,6 +13,7 @@
 		<members>ServiceLargeSection</members>
 		<members>ServiceSmallSection</members>
 		<members>ServiceProgressIndicator</members>
+		<members>UtilModal</members>
 		<name>AuraDefinitionBundle</name>
 	</types>
 	<types>
