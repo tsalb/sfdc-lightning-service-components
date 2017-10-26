@@ -8,7 +8,7 @@
 
   <aura:handler name="init" value="{! this }" action="{! c.doInit }"/>
   
-  <lightning:card>
+  <lightning:card >
     <aura:set attribute="title">
       Top Accounts with Contacts
     </aura:set>

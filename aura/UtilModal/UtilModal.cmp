@@ -1,4 +1,4 @@
-<aura:component>
+<aura:component >
 
   <aura:method name="open" action="{! c.handleOpenModal }"/>
   <aura:method name="close" action="{! c.handleCloseModal }"/>

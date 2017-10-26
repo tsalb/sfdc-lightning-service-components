@@ -13,7 +13,7 @@
   <aura:attribute name="contactMailingZip" type="Integer"/>
 
   <aura:if isTrue="{! !empty(v.contacts) }">
-    <lightning:card>
+    <lightning:card >
       <aura:set attribute="title">
       </aura:set>
       <aura:set attribute="body">

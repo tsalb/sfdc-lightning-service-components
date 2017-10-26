@@ -1,4 +1,4 @@
-<aura:component>
+<aura:component >
   <c:DataService aura:id="service_progress"/>
 
   <aura:method name="nextStep" action="{! c.handleNextStep }"/>
