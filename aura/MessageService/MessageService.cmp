@@ -1,0 +1,28 @@
+<aura:component >
+
+  <c:EventService aura:id="eventService_messaging"/>
+  <lightning:overlayLibrary aura:id="overlayLib"/>
+
+  <aura:method name="showToast" action="{! c.handleShowToast }">
+    <aura:attribute name="title" type="String"/>
+    <aura:attribute name="message" type="String"/>
+    <aura:attribute name="type" type="String"/>
+    <aura:attribute name="duration" type="Integer"/>
+    <aura:attribute name="mode" type="String"/>
+  </aura:method>
+
+  <aura:method name="modal" action="{! c.handleModal }">
+    <aura:attribute name="auraId" type="string" default="modal"/>
+    <aura:attribute name="headerLabel" type="String"/>
+    <aura:attribute name="body" type="String"/>
+    <aura:attribute name="mainActionReference" type="String"/>
+    <aura:attribute name="mainActionLabel" type="String" default="Save"/>
+    <aura:attribute name="closeKey" type="String"/>
+    <aura:attribute name="closeValue" type="String"/>
+  </aura:method>
+
+  <aura:method name="notification" action="{! c.handleUtilToast }">
+    <aura:attribute name="title" type="String"/>
+  </aura:method>
+
+</aura:component>

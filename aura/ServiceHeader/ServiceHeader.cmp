@@ -3,6 +3,7 @@
   <!-- Service Components boilerplate -->
   <c:DataService aura:id="service_header"/>
   <c:EventService aura:id="eventService_header"/>
+  <c:MessageService aura:id="messageService_header"/>
 
   <aura:attribute name="topAccounts" type="List" default="[]"/>
 

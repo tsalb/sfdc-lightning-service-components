@@ -1,6 +1,8 @@
 ({
   doInit : function(component, event) {
-    component.find("service_progress").fetchSteps(
+    var service = component.find("service_progress");
+    
+    service.fetchSteps(
       $A.getCallback(function(error, data) {
         if (data) {
           var parsedData = JSON.parse(data);

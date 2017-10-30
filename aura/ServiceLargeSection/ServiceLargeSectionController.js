@@ -1,44 +1,33 @@
 ({
-  handleModalStyleSelect : function(component, event, helper) {
-    var selectedMenuItemValue = event.getParam("value");
-    component.set("v.modalStyle", selectedMenuItemValue);
-
-    var menuItemArr = component.find("menuItemBtn");
-
-    for (var menuItem of menuItemArr) {
-      if (selectedMenuItemValue != menuItem.get("v.value")) {
-        menuItem.set("v.checked", false);
-      } else {
-        menuItem.set("v.checked", true);
-      }
-    }
-  },
-  handleUpdateMailingAddress : function(component) {
+  handleOpenComponentModal : function(component) {
+    var msgService = component.find("messageService_large");
     var selectedArr = component.find("searchTable").getSelectedRows();
-    var modalStyle = component.get("v.modalStyle");
+    var modalMainActionReference = component.getReference("c.handleModalSaveEvent");
 
-    if (modalStyle == "utilmodal") {    
-      component.find("smallSection").set("v.contacts", selectedArr);
-      component.set("v.selectedArrLength", selectedArr.length);
-      component.find("smallSectionModal").open();
-    } else if (modalStyle == "overlaylibrary") {
-      component.find("eventService_large").utilShowToast(
-        null,
-        "This is coming soon.",
-        "info"
-      );
-    }
+    msgService.modal(
+      "update-address-modal",
+      "Update Address: "+selectedArr.length+" Row(s)",
+      "c:ServiceSmallSection",
+      modalMainActionReference,
+      "Update"
+    );
   },
-  handleSave : function(component, event) {
-    component.find("smallSectionModal").saveAction(event.getSource().get("v.value"));
+  // If we need to send data from this component to the modal, we seem to have to do it via application event 
+  // since there is a different hierarchy. component.find() from either this component or the modal cannot find one another
+  handleModalSaveEvent : function(component, event) {
+    var eventService = component.find("eventService_large");
+    var selectedArr = component.find("searchTable").getSelectedRows();
+
+    eventService.fireAppEvent("CONTACT_ROWS", JSON.stringify(selectedArr));
   },
   handleApplicationEvent : function(component, event, helper) {
     var params = event.getParams();
+    var service = component.find("service_large");
 
     if (params.appEventKey == "ACCOUNT_ID_SELECTED" || params.appEventKey == "CONTACTS_UPDATED") {
       var tableColumns = helper.getTableColumnDefinition();
 
-      component.find("service_large").fetchContactsByAccountId(
+      service.fetchContactsByAccountId(
         params.appEventValue,
         $A.getCallback(function(error, data) {
           if (data) {

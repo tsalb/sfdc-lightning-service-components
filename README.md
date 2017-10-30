@@ -12,7 +12,7 @@ Having no component hierarchy makes it more simple to place components anywhere 
 
 ---
 
-The two primary service components are:
+The three primary service components are:
 
 `DataService.cmp` which encapsulates serverside callouts. A single Apex Controller is attributed to this headless component which uses methods to pass parameters to the JS controller which handles serverside configuration like `action.setStorable()` or `action.setParams()`.
 
@@ -21,6 +21,8 @@ This will be passed to `helper.dispatch()` to make the asynchronous callout.
 `EventService.cmp` which encapsulates a key-value pair (optional value) model for both application and component events. This component registers and fires generic events which need to be parsed by the handling component(s) via key-value.
 
 This sample app doesn't showcase dynamic page layouts and conditional render based on `Status__c` or similar. It's meant to show only Service Component architecture and usage.
+
+`MessageService.cmp`, is for toasts, modals and (coming) notifications.
 
 ---
 
@@ -93,19 +95,16 @@ And the component `helper`:
 Some samples from the app:
 ```javascript
 
-component.find("eventService_header").fireAppEvent("ACCOUNT_ID_SELECTED", selectedOptionValue);
+var eventService = component.find("eventService_header");
 
-component.find("eventService_header").fireAppEvent("HEADER_CLEARTABLE");
+eventService.fireAppEvent("ACCOUNT_ID_SELECTED", selectedOptionValue);
 
-component.find("eventService_header").utilShowToast(
-  "error",
-  "No Accounts in org!",
-  "error"
-);
+eventService.fireAppEvent("HEADER_CLEARTABLE");
+
 ```
 
 ## How EventService is wired
-Unless you'd like to add your own utility events (per above, showing toast can be a shared "event" of sorts), `EventService.cmp` can already handle key-value parameter pairs. Drop in `EventService.cmp` into any component that needs to fire an application or component event.
+`EventService.cmp` can handle key-value parameter pairs. Drop in `EventService.cmp` into any component that needs to fire an application or component event.
 
 Component:
 ```html
@@ -158,12 +157,14 @@ In any component that needs to listen to either an Application or Component even
 
 Component:
 ```html
+// MyCmp.cmp
 <aura:component>
   <aura:handler event="c:ServiceAppEvent" action="{! c.handleApplicationEvent }"/>
 </aura:component>
 ```
 Controller:
 ```javascript
+// MyCmpController.js
 handleApplicationEvent : function(component, event, helper) {
   var params = event.getParams();
 
@@ -172,6 +173,69 @@ handleApplicationEvent : function(component, event, helper) {
   }
   if (params.appEventKey == "HEADER_CLEARTABLE") {
     component.set("v.tableData", null);
+  }
+},
+```
+## MessageService Usage Examples
+At its core, this is a wrapper around the lightning:overlayLibrary which provides some helper functionality for creating both the body and the footer. There are some special features:
+
+- Able to handle text or custom component as the modal body.
+- Always handles the footer cancel button.
+- Specify a main action function / label which is tied to a controller function from the initiating caller. The reason it's tied to the initiating caller (rather than the component being created) is below:
+
+Unfortunately, I haven't figured out how to access the modal from an action (not after the .then promise in the lightning:overlayLibrary) other than an application event since the modal is created from a different hierarchy than the initiating component. This means that I'm using some application event trickery to pass some data to the modal which then does the server side processing.
+
+Component: 
+```html
+// MessageService.cmp
+<aura:component>
+  <lightning:overlayLibrary aura:id="overlayLib"/>
+  <aura:method name="modal" action="{! c.handleModal }">
+    <aura:attribute name="auraId" type="string" default="modal"/>
+    <aura:attribute name="headerLabel" type="String"/>
+    <aura:attribute name="body" type="String"/>
+    <aura:attribute name="mainActionReference" type="String"/>
+    <aura:attribute name="mainActionLabel" type="String" default="Save"/>
+    <aura:attribute name="closeKey" type="String"/>
+    <aura:attribute name="closeValue" type="String"/>
+  </aura:method>
+</aura:component>
+```
+Usage:
+```javascript
+// MyCmpController.Js
+handleOpenComponentModal : function(component) {
+  var msgService = component.find("messageService_large");
+  var selectedArr = component.find("searchTable").getSelectedRows();
+  var modalMainActionReference = component.getReference("c.handleModalSaveEvent");
+
+  msgService.modal(
+    "update-address-modal",
+    "Update Address: "+selectedArr.length+" Row(s)",
+    "c:ServiceSmallSection",
+    modalMainActionReference,
+    "Update"
+  );
+},
+handleModalSaveEvent : function(component, event) {
+  var eventService = component.find("eventService_large");
+  var selectedArr = component.find("searchTable").getSelectedRows();
+
+  eventService.fireAppEvent("CONTACT_ROWS", JSON.stringify(selectedArr));
+},
+
+```
+Usage (c:ServiceSmallSection):
+```javascript
+// ServiceSmallSection.cmp
+handleApplicationEvent : function(component, event, helper) {
+  var params = event.getParams();
+
+  if (params.appEventKey == "CONTACT_ROWS") {
+    var parsedValue = JSON.parse(params.appEventValue);
+    
+    component.set("v.contactList", parsedValue);
+    helper.updateMultiAddress(component);
   }
 },
 ```
