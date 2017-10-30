@@ -3,49 +3,26 @@
   <!-- Service Components boilerplate -->
   <c:DataService aura:id="service_large"/>
   <c:EventService aura:id="eventService_large"/>
+  <c:MessageService aura:id="messageService_large"/>
 
-  <aura:attribute name="selectedArrLength" type="String"/>
   <aura:attribute name="tableData" type="Object"/>
   <aura:attribute name="tableColumns" type="List" default="[]"/>
-
-  <aura:attribute name="modalStyle" type="String" default="utilmodal"/>
   
   <aura:handler event="c:ServiceAppEvent" action="{! c.handleApplicationEvent }"/>
 
   <aura:if isTrue="{! !empty(v.tableData) }">
     <lightning:card >
-      <lightning:datatable aura:id="searchTable"
-        data="{! v.tableData }" 
-        columns="{! v.tableColumns }" 
-        keyField="Id"
-        />
+      <aura:set attribute="body">
+        <lightning:datatable aura:id="searchTable"
+          data="{! v.tableData }" 
+          columns="{! v.tableColumns }" 
+          keyField="Id"
+          />
+      </aura:set>
       <aura:set attribute="actions">
-        <lightning:buttonMenu aura:id="modalStyleBtn"
-          class="slds-m-right_xx-small"
-          iconName="utility:settings" 
-          alternativeText="Modal Style"
-          menuAlignment="right"
-          onselect="{! c.handleModalStyleSelect }">
-            <lightning:menuItem aura:id="menuItemBtn" label="c:UtilModal" value="utilmodal" checked="true"/>
-            <lightning:menuItem aura:id="menuItemBtn" label="lightning:overlayLibrary" value="overlaylibrary" checked="false"/>
-        </lightning:buttonMenu>
-        <lightning:button label="Update Mailing Address" onclick="{! c.handleUpdateMailingAddress }"/>
+        <lightning:button label="Update Mailing Address" onclick="{! c.handleOpenComponentModal }"/>
       </aura:set>
     </lightning:card>
   </aura:if>
-
-  <!-- modal from action -->
-  <c:UtilModal aura:id="smallSectionModal">
-    <aura:set attribute="header">
-      {! 'Update Mailing Address ('+ v.selectedArrLength +' Lines)' }
-    </aura:set>
-    <aura:set attribute="body">
-      <c:ServiceSmallSection aura:id="smallSection"/>
-    </aura:set>
-    <aura:set attribute="action">
-      <lightning:button label="Save" value="c.handleUpdateMailingAddress" variant="brand" onclick="{! c.handleSave }"/>
-    </aura:set>
-  </c:UtilModal>
-
 
 </aura:component>
