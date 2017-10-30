@@ -203,7 +203,7 @@ Component:
 ```
 Usage:
 ```javascript
- MyCmpController.Js
+// MyCmpController.Js
 handleOpenComponentModal : function(component) {
   var msgService = component.find("messageService_large");
   var selectedArr = component.find("searchTable").getSelectedRows();
