@@ -26,8 +26,7 @@ This sample app doesn't showcase dynamic page layouts and conditional render bas
 
 ---
 
-## DataService Usage Example:
-
+## DataService Usage Example
 Drop this into a component that needs serverside data:
 ```html
 <!-- ServiceHeader.cmp -->
@@ -91,7 +90,6 @@ And the component `helper`:
 ```
 
 ## EventService Usage Examples
-
 Some samples from the app:
 ```javascript
 
@@ -152,6 +150,7 @@ Controller:
   }
 })
 ```
+
 ## Handling events in EventService
 In any component that needs to listen to either an Application or Component event, handle it like this:
 
@@ -176,6 +175,7 @@ handleApplicationEvent : function(component, event, helper) {
   }
 },
 ```
+
 ## MessageService Usage Examples
 At its core, this is a wrapper around the lightning:overlayLibrary which provides some helper functionality for creating both the body and the footer. There are some special features:
 
