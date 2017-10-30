@@ -187,7 +187,7 @@ Unfortunately, I haven't figured out how to access the modal from an action (not
 
 Component: 
 ```html
-// MessageService.cmp
+<!-- MessageService.cmp -->
 <aura:component>
   <lightning:overlayLibrary aura:id="overlayLib"/>
   <aura:method name="modal" action="{! c.handleModal }">
@@ -203,7 +203,7 @@ Component:
 ```
 Usage:
 ```javascript
-// MyCmpController.Js
+ MyCmpController.Js
 handleOpenComponentModal : function(component) {
   var msgService = component.find("messageService_large");
   var selectedArr = component.find("searchTable").getSelectedRows();
