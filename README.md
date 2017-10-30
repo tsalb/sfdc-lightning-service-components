@@ -10,6 +10,8 @@ The Service Component design pattern makes it easy for custom components placed 
 
 Having no component hierarchy makes it more simple to place components anywhere on a lightning page and allowing more flexibility of creating a dynamic user experience out of mixing native and custom components.
 
+**tl;dr: Deploy > App Launcher > Service Components**
+
 <a href="https://githubsfdeploy.herokuapp.com?owner=tsalb&repo=sfdc-lightning-service-components&ref=master">
   <img alt="Deploy to Salesforce"
        src="https://raw.githubusercontent.com/afawcett/githubsfdeploy/master/deploy.png">
