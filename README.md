@@ -22,7 +22,7 @@ This will be passed to `helper.dispatch()` to make the asynchronous callout.
 
 This sample app doesn't showcase dynamic page layouts and conditional render based on `Status__c` or similar. It's meant to show only Service Component architecture and usage.
 
-`MessageService.cmp`, is for toasts, modals and (coming) notifications.
+`MessageService.cmp` is for toasts, modals and (coming) notifications.
 
 ---
 
