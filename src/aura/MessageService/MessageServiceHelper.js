@@ -16,14 +16,20 @@
   },
   createBody : function(params, ctrlCallback) {
     var componentType = params.body.split(":")[0];
+    var componentParams = {};
+
+    // if we had some bodyParams, let's set the target modal body with their data
+    if (!$A.util.isEmpty(params.bodyParams)) {
+      Object.keys(params.bodyParams).forEach(function(v,i,a) {
+        componentParams[v] = params.bodyParams[v];
+      });
+    }
 
     switch(componentType) {
       case "c" : //custom component
         $A.createComponent(
           params.body,
-          {
-            "aura:id": params.auraId,
-          },
+          componentParams,
           function(newModalBody, status, errorMessage){
             if (status === "SUCCESS") {
               ctrlCallback(null, newModalBody);

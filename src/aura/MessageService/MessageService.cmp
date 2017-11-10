@@ -1,4 +1,4 @@
-<aura:component >
+<aura:component>
 
   <c:EventService aura:id="eventService_messaging"/>
   <lightning:overlayLibrary aura:id="overlayLib"/>
@@ -15,14 +15,15 @@
     <aura:attribute name="auraId" type="string" default="modal"/>
     <aura:attribute name="headerLabel" type="String"/>
     <aura:attribute name="body" type="String"/>
+    <aura:attribute name="bodyParams" type="Object"/>
     <aura:attribute name="mainActionReference" type="String"/>
     <aura:attribute name="mainActionLabel" type="String" default="Save"/>
-    <aura:attribute name="closeKey" type="String"/>
-    <aura:attribute name="closeValue" type="String"/>
+    <!-- <aura:attribute name="closeKey" type="String"/> -->
+    <!-- <aura:attribute name="closeValue" type="Object"/> -->
   </aura:method>
 
-  <aura:method name="notification" action="{! c.handleUtilToast }">
+  <!-- <aura:method name="notification" action="{! c.handleUtilNotification }">
     <aura:attribute name="title" type="String"/>
-  </aura:method>
+  </aura:method> -->
 
 </aura:component>
