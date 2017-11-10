@@ -188,9 +188,10 @@ At its core, this is a wrapper around the lightning:overlayLibrary which provide
 
 - Able to handle text or custom component as the modal body.
 - Always handles the footer cancel button.
-- Specify a main action function / label which is tied to a controller function from the initiating caller. The reason it's tied to the initiating caller (rather than the component being created) is below:
-
-Unfortunately, I haven't figured out how to access the modal from an action (not after the .then promise in the lightning:overlayLibrary) other than an application event since the modal is created from a different hierarchy than the initiating component. This means that I'm using some application event trickery to pass some data to the modal which then does the server side processing.
+- Specify a main action function which can be either:
+ - On the originating component by using `component.getReference("someFunction")`.
+ - On the modal component (the body) that's being created by using `"c.someFunctionOnTheModalComponent"`.
+- Pass an Object of parameters to the modal component (the body) from the originating component by using object notation while setting up the modal.
 
 Component: 
 ```html
@@ -201,48 +202,35 @@ Component:
     <aura:attribute name="auraId" type="string" default="modal"/>
     <aura:attribute name="headerLabel" type="String"/>
     <aura:attribute name="body" type="String"/>
+    <aura:attribute name="bodyParams" type="Object"/>
     <aura:attribute name="mainActionReference" type="String"/>
     <aura:attribute name="mainActionLabel" type="String" default="Save"/>
-    <aura:attribute name="closeKey" type="String"/>
-    <aura:attribute name="closeValue" type="String"/>
   </aura:method>
 </aura:component>
 ```
-Usage:
+Creating the modal from MyCmp:
 ```javascript
 // MyCmpController.Js
 handleOpenComponentModal : function(component) {
   var msgService = component.find("messageService_large");
   var selectedArr = component.find("searchTable").getSelectedRows();
-  var modalMainActionReference = component.getReference("c.handleModalSaveEvent");
 
   msgService.modal(
     "update-address-modal",
     "Update Address: "+selectedArr.length+" Row(s)",
     "c:ServiceSmallSection",
-    modalMainActionReference,
+    {
+      "contactList": selectedArr
+    },
+    "c.handleUpdateMultiAddress",
     "Update"
   );
 },
-handleModalSaveEvent : function(component, event) {
-  var eventService = component.find("eventService_large");
-  var selectedArr = component.find("searchTable").getSelectedRows();
-
-  eventService.fireAppEvent("CONTACT_ROWS", JSON.stringify(selectedArr));
-},
-
 ```
-Usage (c:ServiceSmallSection):
+The modal component function being referenced (on c:ServiceSmallSection):
 ```javascript
-// ServiceSmallSection.cmp
-handleApplicationEvent : function(component, event, helper) {
-  var params = event.getParams();
-
-  if (params.appEventKey == "CONTACT_ROWS") {
-    var parsedValue = JSON.parse(params.appEventValue);
-    
-    component.set("v.contactList", parsedValue);
-    helper.updateMultiAddress(component);
-  }
+// ServiceSmallSectionController.js
+handleUpdateMultiAddress : function(component, event, helper) {
+  helper.updateMultiAddress(component);
 },
 ```
