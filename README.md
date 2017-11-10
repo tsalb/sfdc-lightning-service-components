@@ -189,8 +189,8 @@ At its core, this is a wrapper around the lightning:overlayLibrary which provide
 - Able to handle text or custom component as the modal body.
 - Always handles the footer cancel button.
 - Specify a main action function which can be either:
- - On the originating component by using `component.getReference("someFunction")`.
- - On the modal component (the body) that's being created by using `"c.someFunctionOnTheModalComponent"`.
+  - On the originating component by using `component.getReference("someFunction")`.
+  - On the modal component (the body) that's being created by using `"c.someFunctionOnTheModalComponent"`.
 - Pass an Object of parameters to the modal component (the body) from the originating component by using object notation while setting up the modal.
 
 Component: 
