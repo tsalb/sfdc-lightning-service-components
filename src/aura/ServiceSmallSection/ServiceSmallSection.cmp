@@ -11,8 +11,6 @@
   <aura:attribute name="contactMailingState" type="String"/>
   <aura:attribute name="contactMailingZip" type="Integer"/>
 
-  <aura:handler event="c:ServiceAppEvent" action="{! c.handleApplicationEvent }"/>
-
   <lightning:card >
     <aura:set attribute="title">
     </aura:set>

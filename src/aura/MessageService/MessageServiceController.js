@@ -1,6 +1,5 @@
 ({
   handleShowToast : function(component, event, helper) {
-    console.log("toasting")
     var params = event.getParam("arguments");
     helper.showToast(
       params.title,
@@ -19,6 +18,12 @@
       $A.getCallback(function(error, modalBody) {
         if (modalBody.isValid()) {
 
+          // if mainActionReference has a c. prefix, it means we want an action on the body just created
+          var str = String(params.mainActionReference);
+          if (str.startsWith("c.")) {
+            params.mainActionReference = modalBody.getReference(params.mainActionReference);
+          }
+
           helper.createButton(params,
             $A.getCallback(function(error, mainAction) {
               if (mainAction.isValid()) {
@@ -36,12 +41,15 @@
                         header: params.headerLabel,
                         body: modalBody, 
                         footer: completedFooter,
-                        showCloseButton: true,
-                        closeCallback: function() {
-                          if (params.closeKey) {
-                            eventService.fireCompEvent(params.closeKey, params.closeValue);
-                          }
-                        }
+                        showCloseButton: true
+                        // Haven't had a use for this yet so temporarily deprecating
+                        // closeCallback: function() {
+                        //   if (params.closeKey) {
+                        //     eventService.fireCompEvent(params.closeKey, params.closeValue);
+                        //   }
+                        // }
+                      }).then(function (overlay) {
+                        eventService.fireAppEvent("MODAL_READY");
                       });
                     }
                   }

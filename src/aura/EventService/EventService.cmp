@@ -5,12 +5,12 @@
 
   <aura:method name="fireAppEvent" action="{! c.handleFireApplicationEvent }">
     <aura:attribute name="eventKey" type="String"/>
-    <aura:attribute name="eventValue" type="String"/>
+    <aura:attribute name="eventValue" type="Object"/>
   </aura:method>
 
   <aura:method name="fireCompEvent" action="{! c.handleFireComponentEvent }">
     <aura:attribute name="eventKey" type="String"/>
-    <aura:attribute name="eventValue" type="String"/>
+    <aura:attribute name="eventValue" type="Object"/>
   </aura:method>
 
 </aura:component>
