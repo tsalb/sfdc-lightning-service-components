@@ -1,9 +1,9 @@
 <aura:component implements="flexipage:availableForAllPageTypes">
 
   <!-- Service Components boilerplate -->
-  <c:DataService aura:id="service_large"/>
-  <c:EventService aura:id="eventService_large"/>
-  <c:MessageService aura:id="messageService_large"/>
+  <c:DataService aura:id="service"/>
+  <c:EventService aura:id="eventService"/>
+  <c:MessageService aura:id="messageService"/>
 
   <aura:attribute name="tableData" type="Object"/>
   <aura:attribute name="tableColumns" type="List" default="[]"/>

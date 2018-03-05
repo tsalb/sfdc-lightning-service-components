@@ -1,9 +1,9 @@
 <aura:component implements="flexipage:availableForAllPageTypes">
 
   <!-- Service Components boilerplate -->
-  <c:DataService aura:id="service_small"/>
-  <c:EventService aura:id="eventService_small"/>
-  <c:MessageService aura:id="messageService_small"/>
+  <c:DataService aura:id="service"/>
+  <c:EventService aura:id="eventService"/>
+  <c:MessageService aura:id="messageService"/>
 
   <aura:attribute name="contactList" type="Object"/>
   <aura:attribute name="contactMailingStreet" type="String"/>

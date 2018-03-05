@@ -1,4 +1,7 @@
 ({
+  eventService : function(component) {
+    return component.find("eventService");
+  },
   showToast : function(title, message, type, duration, mode) {
     var type = (type ? type : "other");
     var duration = (duration ? parseInt(duration) : 5000);
@@ -43,7 +46,8 @@
         $A.createComponent(
           "lightning:formattedText",
           { 
-            "value": params.body
+            "value": params.body,
+            "class": "slds-align_absolute-center"
           },
           function(formattedText, status, errorMessage){
             if (status === "SUCCESS") {
@@ -61,7 +65,8 @@
       {
         "aura:id": params.auraId+"-main-action",
         "label": params.mainActionLabel,
-        "onclick": params.mainActionReference
+        "onclick": params.mainActionReference,
+        "variant": "brand"
       },
       function(newButton, status, errorMessage){
         if (status === "SUCCESS") {
