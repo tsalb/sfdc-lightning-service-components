@@ -20,7 +20,7 @@
           />
       </aura:set>
       <aura:set attribute="actions">
-        <lightning:button label="Update Mailing Address" onclick="{! c.handleOpenComponentModal }"/>
+        <lightning:button label="Update Mailing Address" variant="brand" onclick="{! c.handleOpenComponentModal }"/>
       </aura:set>
     </lightning:card>
   </aura:if>

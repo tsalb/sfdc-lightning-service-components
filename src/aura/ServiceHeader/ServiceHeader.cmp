@@ -30,7 +30,7 @@
     </lightning:layout>
 
     <aura:set attribute="actions">
-      <lightning:button label="Clear Table" variant="brand" onclick="{! c.handleClearTableOnly }"/>
+      <lightning:button label="Clear Table" onclick="{! c.handleClearTableOnly }"/>
     </aura:set>
 
   </lightning:card>

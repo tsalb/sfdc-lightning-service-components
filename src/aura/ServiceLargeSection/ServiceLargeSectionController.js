@@ -2,16 +2,24 @@
   handleOpenComponentModal : function(component, event, helper) {
     var selectedArr = component.find("searchTable").getSelectedRows();
 
-    helper.messageService(component).modal(
-      "update-address-modal",
-      "Update Address: "+selectedArr.length+" Row(s)",
-      "c:ServiceSmallSection",
-      {
-        "contactList": selectedArr
-      },
-      "c.handleUpdateMultiAddress",
-      "Update"
-    );
+    if ($A.util.isEmpty(selectedArr)) {
+      helper.messageService(component).showToast(
+        null,
+        "Please choose at least one Contact.",
+        "info"
+      );
+    } else {
+      helper.messageService(component).modal(
+        "update-address-modal",
+        "Update Address: "+selectedArr.length+" Row(s)",
+        "c:ServiceSmallSection",
+        {
+          "contactList": selectedArr
+        },
+        "c.handleUpdateMultiAddress",
+        "Update"
+      );
+    }
   },
   handleApplicationEvent : function(component, event, helper) {
     var params = event.getParams();

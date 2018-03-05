@@ -44,7 +44,7 @@
         label: "State",
         fieldName: "MailingState",
         type: "text",
-        initialWidth: 60
+        initialWidth: 80
       },
       {
         label: "Zip",
