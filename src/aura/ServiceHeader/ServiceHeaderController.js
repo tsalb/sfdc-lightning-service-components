@@ -1,5 +1,5 @@
 ({
-  doInit: function (component) {
+  doInit: function (component, event, helper) {
     helper.service(component).fetchAccountCombobox(
       $A.getCallback(function(error, data) {
         // This returns whatever datatype is specified in the controller
@@ -16,12 +16,12 @@
       })
     );
   },
-  handleAccountOptionSelected : function(component, event) {
+  handleAccountOptionSelected : function(component, event, helper) {
     var selectedOptionValue = event.getParam("value");
 
     helper.eventService(component).fireAppEvent("ACCOUNT_ID_SELECTED", selectedOptionValue);
   },
-  handleClearTableOnly : function(component) {
+  handleClearTableOnly : function(component, event, helper) {
     helper.eventService(component).fireAppEvent("HEADER_CLEARTABLE");
   },
 })

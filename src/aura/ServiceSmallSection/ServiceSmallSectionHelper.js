@@ -20,12 +20,12 @@
       component.get("v.contactMailingZip"),
       $A.getCallback(function(error, data) {
         if (data) {
-          _self.msgService(component).showToast(null, "Updated Successfully", "success");
+          _self.messageService(component).showToast(null, "Updated Successfully", "success");
           _self.eventService(component).fireAppEvent("CONTACTS_UPDATED", contactList[0].AccountId);
-          _self.msgService(component).find("overlayLib").notifyClose(); // must be last, as this destroys this component
+          _self.messageService(component).find("overlayLib").notifyClose(); // must be last, as this destroys this component
         } else {
           if (error.length > 0 && error[0].hasOwnProperty('message')) {
-            _self.msgService(component).showToast(
+            _self.messageService(component).showToast(
               null,
               error[0].message,
               "error"

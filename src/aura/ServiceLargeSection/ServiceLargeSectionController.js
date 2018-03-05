@@ -1,5 +1,5 @@
 ({
-  handleOpenComponentModal : function(component) {
+  handleOpenComponentModal : function(component, event, helper) {
     var selectedArr = component.find("searchTable").getSelectedRows();
 
     helper.messageService(component).modal(
