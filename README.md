@@ -38,7 +38,7 @@ Drop this into a component that needs serverside data:
 ```html
 <!-- ServiceHeader.cmp -->
 <aura:component implements="flexipage:availableForAllPageTypes">
-  <c:DataService aura:id="service_header"/> 
+  <c:DataService aura:id="service"/> 
   <aura:handler name="init" value="{! this }" action="{! c.doInit }"/>
 </aura:component>
 ```
@@ -47,15 +47,22 @@ And on the component's controller:
 ```javascript
 // ServiceHeaderController.js
 doInit: function (component, event, helper) {
-  var service = component.find("service_header");
 
-  service.fetchAccountCombobox(
+  helper.service(component).fetchAccountCombobox(
     $A.getCallback(function(error, data) {
       if (data) {
         console.log("data from my apex controller is: "+data);
       }
     })
   );
+},
+```
+
+And on the component's helper:
+```javascript
+// ServiceHeaderHelper.js
+service : function(component) {
+  return component.find("service");
 },
 ```
 
@@ -100,11 +107,9 @@ And the component `helper`:
 Some samples from the app:
 ```javascript
 
-var eventService = component.find("eventService_header");
+helper.eventService(component).fireAppEvent("ACCOUNT_ID_SELECTED", selectedOptionValue);
 
-eventService.fireAppEvent("ACCOUNT_ID_SELECTED", selectedOptionValue);
-
-eventService.fireAppEvent("HEADER_CLEARTABLE");
+helper.eventService(component).fireAppEvent("HEADER_CLEARTABLE");
 
 ```
 
@@ -212,10 +217,9 @@ Creating the modal from MyCmp:
 ```javascript
 // MyCmpController.Js
 handleOpenComponentModal : function(component) {
-  var msgService = component.find("messageService_large");
   var selectedArr = component.find("searchTable").getSelectedRows();
 
-  msgService.modal(
+  helper.messageService(component).modal(
     "update-address-modal",
     "Update Address: "+selectedArr.length+" Row(s)",
     "c:ServiceSmallSection",
