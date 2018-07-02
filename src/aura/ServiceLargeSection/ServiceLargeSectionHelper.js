@@ -14,7 +14,7 @@
         label: "Name",
         fieldName: "Name",
         type: "text",
-        initialWidth: 130
+        initialWidth: 110
       },
       {
         label: "Email",
@@ -37,19 +37,21 @@
         label: "City",
         fieldName: "MailingCity",
         type: "text",
-        initialWidth: 100
       },
       {
         label: "State",
         fieldName: "MailingState",
         type: "text",
-        initialWidth: 80
       },
       {
         label: "Zip",
         fieldName: "MailingPostalCode",
         type: "text",
-        initialWidth: 90
+      },
+      {
+        label: "Country",
+        fieldName: "MailingCountry",
+        type: "text",
       }
     ];
     return tableColumns;

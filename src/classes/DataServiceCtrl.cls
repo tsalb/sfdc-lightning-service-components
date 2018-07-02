@@ -1,20 +1,8 @@
 public with sharing class DataServiceCtrl {
 
   @AuraEnabled
-  public static String getServiceAppSteps() {
-    Data valueLabels = new Data();
-
-    valueLabels.items.add(new Item('step1', 'Choose Account'));
-    valueLabels.items.add(new Item('step2', 'Select Contact'));
-    valueLabels.items.add(new Item('step3', 'Update Address'));
-
-    return JSON.serialize(valueLabels);
-  }
-
-  @AuraEnabled
   public static String getAccountOptions() {
     Data valueLabels = new Data();
-
     List<AggregateResult> aggList = new List<AggregateResult>([
       SELECT
         AccountId accId,
@@ -29,11 +17,9 @@ public with sharing class DataServiceCtrl {
         count(Name) DESC
       LIMIT 10
     ]);
-
     for (AggregateResult ar : aggList) {
       valueLabels.items.add(new Item((String)ar.get('accId'), (String)ar.get('accName')));
     }
-
     //we need to serialize this because lightning cant have @AuraEnabled on inner classes
     return JSON.serialize(valueLabels);
   }
@@ -50,6 +36,7 @@ public with sharing class DataServiceCtrl {
           MailingCity,
           MailingState,
           MailingPostalCode,
+          MailingCountry,
           AccountId,
           Id
         FROM
@@ -63,17 +50,20 @@ public with sharing class DataServiceCtrl {
   }
 
   @AuraEnabled
-  public static Boolean updateMultiContactAddress(List<Contact> conList, String conStreet, String conCity, String conState, String conZip) {
-    System.debug('updateMultiContactAddress conList is: '+conList);
-
-    // Fix for person accounts (INVALID_FIELD_FOR_INSERT_UPDATE, Account: bad field names on insert/update call: AccountId: [ AccountId])
-    // Create new instance for each record
-    List <Contact> contactsToUpdate = new List <Contact> ();
-
+  public static Boolean updateMultiContactAddress(List<Contact> conList, String conStreet, String conCity, String conState, String conZip, String conCountry) {
+    List<Contact> contactsToUpdate = new List<Contact>();
     for (Contact c : conList) {
-      contactsToUpdate.add(new Contact(Id = c.Id, MailingStreet = conStreet, MailingCity = conCity, MailingState = conState, MailingPostalCode = conZip));
+      contactsToUpdate.add(
+        new Contact(
+          Id = c.Id,
+          MailingStreet = conStreet,
+          MailingCity = conCity,
+          MailingState = conState,
+          MailingPostalCode = conZip,
+          MailingCountry = conCountry
+        )
+      );
     }
-
     try {
       update contactsToUpdate;
       return true;

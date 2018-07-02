@@ -1,10 +1,5 @@
 <aura:component controller="DataServiceCtrl">
 
-  <!-- ServiceProgressIndicator -->
-  <aura:method name="fetchSteps" action="{! c.handleFetchSteps }">
-    <aura:attribute name="callback" type="function"/>
-  </aura:method>
-
   <!-- ServiceHeader.cmp -->
   <aura:method name="fetchAccountCombobox" action="{! c.handleFetchAccountCombobox }">
     <aura:attribute name="callback" type="function"/>
@@ -22,7 +17,8 @@
     <aura:attribute name="contactMailingStreet" type="String"/>
     <aura:attribute name="contactMailingCity" type="String"/>
     <aura:attribute name="contactMailingState" type="String"/>
-    <aura:attribute name="contactMailingZip" type="Integer"/>
+    <aura:attribute name="contactMailingZip" type="String"/>
+    <aura:attribute name="contactMailingCountry" type="String"/>
     <aura:attribute name="callback" type="function"/>
   </aura:method>
 

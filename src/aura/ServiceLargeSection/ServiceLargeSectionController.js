@@ -11,7 +11,7 @@
       helper.messageService(component).modal(
         "update-address-modal",
         "Update Address: "+selectedArr.length+" Row(s)",
-        "c:ServiceSmallSection",
+        "c:ContactAddressForm",
         {
           contactList: selectedArr
         },

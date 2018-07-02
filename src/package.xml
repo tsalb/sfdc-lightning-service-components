@@ -11,9 +11,9 @@
 		<members>ServiceCompEvent</members>
 		<members>ServiceHeader</members>
 		<members>ServiceLargeSection</members>
-		<members>ServiceSmallSection</members>
 		<members>MessageService</members>
 		<members>modalFooter</members>
+		<members>ContactAddressForm</members>
 		<name>AuraDefinitionBundle</name>
 	</types>
 	<types>
@@ -33,5 +33,5 @@
 		<members>Admin</members>
 		<name>Profile</name>
 	</types>
-	<version>42.0</version>
+	<version>43.0</version>
 </Package>

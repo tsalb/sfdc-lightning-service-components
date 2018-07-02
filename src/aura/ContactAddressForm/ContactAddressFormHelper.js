@@ -11,14 +11,16 @@
   updateMultiAddress : function(component) {
     let _self = this;
     let contactList = component.get("v.contactList");
+    let addressObject = component.find("mailing-address").get("v.value"); // contact mailing address is stored in key:value pairs.
     _self.service(component).updateMultiContactAddress(
       contactList,
-      component.get("v.contactMailingStreet"),
-      component.get("v.contactMailingCity"),
-      component.get("v.contactMailingState"),
-      component.get("v.contactMailingZip"),
+      addressObject.MailingStreet,
+      addressObject.MailingCity,
+      addressObject.MailingState,
+      addressObject.MailingPostalCode,
+      addressObject.MailingCountry,
       $A.getCallback((error, data) => {
-        if (data) {
+        if ($A.util.getBooleanValue(data)) {
           _self.messageService(component).showToast(null, "Updated Successfully", "success");
           _self.eventService(component).fireAppEvent("CONTACTS_UPDATED", contactList[0].AccountId);
           _self.messageService(component).find("overlayLib").notifyClose(); // must be last, as this destroys this component
