@@ -20,20 +20,19 @@
   createBody : function(params, ctrlCallback) {
     let componentType = params.body.split(":")[0];
     let componentParams = {};
-
     // if we had some bodyParams, let's set the target modal body with their data
     if (!$A.util.isEmpty(params.bodyParams)) {
-      Object.keys(params.bodyParams).forEach(function(v,i,a) {
-        componentParams[v] = params.bodyParams[v];
-      });
+      Object.keys(params.bodyParams)
+        .forEach((v,i,a) => {
+          componentParams[v] = params.bodyParams[v];
+        });
     }
-    
     switch(componentType) {
       case "c" : //custom component
         $A.createComponent(
           params.body,
           componentParams,
-          function(newModalBody, status, errorMessage){
+          (newModalBody, status, errorMessage) => {
             if (status === "SUCCESS") {
               ctrlCallback(null, newModalBody);
             } else {
@@ -49,7 +48,7 @@
             "value": params.body,
             "class": "slds-align_absolute-center"
           },
-          function(formattedText, status, errorMessage){
+          (formattedText, status, errorMessage) => {
             if (status === "SUCCESS") {
               ctrlCallback(null, formattedText);
             } else {
@@ -68,7 +67,7 @@
         "onclick": params.mainActionReference,
         "variant": "brand"
       },
-      function(newButton, status, errorMessage){
+      (newButton, status, errorMessage) => {
         if (status === "SUCCESS") {
           ctrlCallback(null, newButton);
         } else {

@@ -1,6 +1,6 @@
 ({
-  createToast : function(component, event, helper) {
-    var params = event.getParam("arguments");
+  handleShowToast : function(component, event, helper) {
+    let params = event.getParam("arguments");
     helper.showToast(
       params.title,
       params.message,
@@ -10,17 +10,17 @@
     );
   },
   createOverlayModal : function(component, event, helper) {
-    var params = event.getParam("arguments");
+    let params = event.getParam("arguments");
     // Creating the body first - this can be a custom component or text wrapped in formattedText
     helper.createBody(params,
-      $A.getCallback(function(error, modalBody) {
+      $A.getCallback((error, modalBody) => {
         if (error) {
           alert(error);
           return;
         }
         if (modalBody.isValid() && !$A.util.isUndefinedOrNull(modalBody)) {
           // if mainActionReference has a c. prefix, it means we want an action on the body just created
-          var str = String(params.mainActionReference);
+          let str = String(params.mainActionReference);
           if (str.startsWith("c.")) {
             params.mainActionReference = modalBody.getReference(params.mainActionReference);
           }
@@ -37,7 +37,7 @@
                   {
                     "actions": mainAction
                   },
-                  function(completedFooter, status, errorMessage){
+                  (completedFooter, status, errorMessage) => {
                     if (status === "SUCCESS") {
                       component.find("overlayLib").showCustomModal({
                         header: params.headerLabel,
@@ -45,12 +45,14 @@
                         footer: completedFooter,
                         showCloseButton: helper.defineShowCLoseButtonAttribute(params.showCloseButton),
                         cssClass: helper.defineLargeModalAttribute(params.isLargeModal)
-                      }).then($A.getCallback((overlay) => {
+                      })
+                      .then($A.getCallback((overlay) => {
                         if (!$A.util.isUndefinedOrNull(params.bodyParams)) {
-                          Object.keys(params.bodyParams).forEach((v,i,a) => {
-                            var valueProviderAdded = "v."+v;
-                            modalBody.set(valueProviderAdded, params.bodyParams[v]);
-                          });
+                          Object.keys(params.bodyParams)
+                            .forEach((v,i,a) => {
+                              let valueProviderAdded = "v."+v;
+                              modalBody.set(valueProviderAdded, params.bodyParams[v]);
+                            });
                         }
                         helper.eventService(component).fireAppEvent("MODAL_READY");
                         if (!$A.util.isUndefinedOrNull(params.callback)) {
@@ -72,7 +74,7 @@
     ); // end helper.createBody
   },
   createOverlayModalWithoutFooter : function(component, event, helper) {
-    var params = event.getParam("arguments");
+    let params = event.getParam("arguments");
     helper.createBody(params,
       $A.getCallback((error, modalBody) => {
         if (error) {
@@ -89,7 +91,7 @@
             .then($A.getCallback((overlay) => {
               if (!$A.util.isUndefinedOrNull(params.bodyParams)) {
                 Object.keys(params.bodyParams).forEach((v,i,a) => {
-                  var valueProviderAdded = "v."+v;
+                  let valueProviderAdded = "v."+v;
                   modalBody.set(valueProviderAdded, params.bodyParams[v]);
                 });
               }
