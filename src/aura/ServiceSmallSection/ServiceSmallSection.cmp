@@ -20,29 +20,25 @@
           <lightning:input aura:id="contactField" 
             name="mailingStreet" 
             label="Street"
-            value="{! v.contactMailingStreet }"
-            />
+            value="{! v.contactMailingStreet }"/>
         </lightning:layoutItem>
         <lightning:layoutItem padding="horizontal-small" size="6">
           <lightning:input aura:id="contactField" 
             name="mailingCity" 
             label="City"
-            value="{! v.contactMailingCity }"
-            />
+            value="{! v.contactMailingCity }"/>
         </lightning:layoutItem>
         <lightning:layoutItem padding="horizontal-small" size="2">
           <lightning:input aura:id="contactField" 
             name="mailingState" 
             label="State"
-            value="{! v.contactMailingState }"
-            />
+            value="{! v.contactMailingState }"/>
         </lightning:layoutItem>
         <lightning:layoutItem padding="horizontal-small" size="4">
           <lightning:input aura:id="contactField" 
             name="mailingZip" 
             label="Zip"
-            value="{! v.contactMailingZip }"
-            />
+            value="{! v.contactMailingZip }"/>
         </lightning:layoutItem>
       </lightning:layout>
     </aura:set>

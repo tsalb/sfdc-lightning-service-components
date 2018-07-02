@@ -9,7 +9,7 @@
     return component.find("eventService");
   },
   getTableColumnDefinition : function () {
-    var tableColumns = [
+    let tableColumns = [
       {
         label: "Name",
         fieldName: "Name",
@@ -32,7 +32,6 @@
         label: "Street",
         fieldName: "MailingStreet",
         type: "text",
-        initialWidth: 200
       },
       {
         label: "City",
@@ -54,5 +53,25 @@
       }
     ];
     return tableColumns;
+  },
+  loadContactTable : function(component, accountId) {
+    let _self = this;
+    _self.service(component).fetchContactsByAccountId(
+      accountId,
+      $A.getCallback((error, data) => {
+        if (!$A.util.isUndefinedOrNull(data)) {
+          component.set("v.tableData", data);
+          component.set("v.tableColumns", _self.getTableColumnDefinition());
+        } else {
+          if (!$A.util.isUndefinedOrNull(error) && error[0].hasOwnProperty("message")) {
+            _self.messageService(component).showToast(
+              null,
+              error[0].message,
+              "error"
+            );
+          }
+        }
+      })
+    );
   },
 })

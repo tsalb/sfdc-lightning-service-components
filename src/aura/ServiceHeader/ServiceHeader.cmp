@@ -13,10 +13,8 @@
     <aura:set attribute="title">
       Top Accounts with Contacts
     </aura:set>
-
     <lightning:layout horizontalAlign="center" multipleRows="true">
       <lightning:layoutItem class="slds-m-bottom_medium" size="10">
-        <!-- <c:ServiceProgressIndicator aura:id="headerIndicator"/> -->
       </lightning:layoutItem>
       <lightning:layoutItem padding="horizontal-medium" size="5">
         <lightning:combobox aura:id="selectItem"
@@ -24,15 +22,12 @@
           label="Accounts"
           placeholder="Choose an Account"
           onchange="{! c.handleAccountOptionSelected }"
-          options="{! v.topAccounts }"
-          />
+          options="{! v.topAccounts }"/>
       </lightning:layoutItem>
     </lightning:layout>
-
     <aura:set attribute="actions">
       <lightning:button label="Clear Table" onclick="{! c.handleClearTableOnly }"/>
     </aura:set>
-
   </lightning:card>
 
 </aura:component>
