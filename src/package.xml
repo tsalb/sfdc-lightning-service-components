@@ -9,11 +9,11 @@
 		<members>EventService</members>
 		<members>ServiceAppEvent</members>
 		<members>ServiceCompEvent</members>
-		<members>ServiceHeader</members>
-		<members>ServiceLargeSection</members>
 		<members>MessageService</members>
 		<members>modalFooter</members>
 		<members>ContactAddressForm</members>
+		<members>AccountSelector</members>
+		<members>ContactDatatable</members>
 		<name>AuraDefinitionBundle</name>
 	</types>
 	<types>

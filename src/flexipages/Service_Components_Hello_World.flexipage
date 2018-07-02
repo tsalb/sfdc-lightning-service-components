@@ -2,14 +2,14 @@
 <FlexiPage xmlns="http://soap.sforce.com/2006/04/metadata">
     <flexiPageRegions>
         <componentInstances>
-            <componentName>ServiceHeader</componentName>
+            <componentName>AccountSelector</componentName>
         </componentInstances>
         <name>region1</name>
         <type>Region</type>
     </flexiPageRegions>
     <flexiPageRegions>
         <componentInstances>
-            <componentName>ServiceLargeSection</componentName>
+            <componentName>ContactDatatable</componentName>
         </componentInstances>
         <name>region2</name>
         <type>Region</type>
