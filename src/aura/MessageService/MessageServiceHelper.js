@@ -3,23 +3,23 @@
     return component.find("eventService");
   },
   showToast : function(title, message, type, duration, mode) {
-    var type = (type ? type : "other");
-    var duration = (duration ? parseInt(duration) : 5000);
-    var mode = (mode ? mode : "dismissible");
-    var toastEvent = $A.get("e.force:showToast");
+    let toastType = (type ? type : "other");
+    let toastDuration = (duration ? parseInt(duration) : 5000);
+    let tostMode = (mode ? mode : "dismissible");
+    let toastEvent = $A.get("e.force:showToast");
 
     toastEvent.setParams({
       title: title,
       message: message,
-      type: type,
-      duration: duration,
-      mode: mode
+      type: toastType,
+      duration: toastDuration,
+      mode: tostMode
     });
     toastEvent.fire();
   },
   createBody : function(params, ctrlCallback) {
-    var componentType = params.body.split(":")[0];
-    var componentParams = {};
+    let componentType = params.body.split(":")[0];
+    let componentParams = {};
 
     // if we had some bodyParams, let's set the target modal body with their data
     if (!$A.util.isEmpty(params.bodyParams)) {
@@ -27,7 +27,7 @@
         componentParams[v] = params.bodyParams[v];
       });
     }
-
+    
     switch(componentType) {
       case "c" : //custom component
         $A.createComponent(
@@ -77,4 +77,26 @@
       }
     );
   },
+  defineLargeModalAttribute : function(isLargeModalVal) {
+    if ($A.util.isUndefinedOrNull(isLargeModalVal)) {
+      return null;
+    }
+    if (!$A.util.getBooleanValue(isLargeModalVal)) {
+      return null;
+    }
+    if ($A.util.getBooleanValue(isLargeModalVal)) {
+      return "slds-modal_large";
+    }
+  },
+  defineShowCLoseButtonAttribute : function(showCloseButtonBooleanVal) {
+    if ($A.util.isUndefinedOrNull(showCloseButtonBooleanVal)) {
+      return true;
+    }
+    if (!$A.util.getBooleanValue(showCloseButtonBooleanVal)) {
+      return false;
+    }
+    if ($A.util.getBooleanValue(showCloseButtonBooleanVal)) {
+      return true;
+    }
+  }
 })
