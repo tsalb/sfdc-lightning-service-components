@@ -49,7 +49,7 @@ And on the component's controller:
 doInit: function (component, event, helper) {
 
   helper.service(component).fetchAccountCombobox(
-    $A.getCallback(function(error, data) {
+    $A.getCallback((error, data) => {
       if (data) {
         console.log("data from my apex controller is: "+data);
       }
@@ -81,8 +81,8 @@ No parameters or storables are set against the `action` here in `DataService.cmp
 // DataServiceController.js
 ({
   handleFetchAccountCombobox : function(component, event, helper) {
-    var params = event.getParam("arguments");
-    var action = component.get("c.getAccountOptions");
+    let params = event.getParam("arguments");
+    let action = component.get("c.getAccountOptions");
     helper.dispatchAction(component, action, params);
   }
 })
@@ -91,7 +91,7 @@ And the component `helper`:
 ```javascript
 ({
   dispatchAction : function(component, action, params) {
-    action.setCallback(this, function(response) {
+    action.setCallback(this, (response) => {
       if (response.getState() === "SUCCESS") {
         params.callback(null, response.getReturnValue());
       } else {
@@ -139,8 +139,8 @@ Controller:
 // EventServiceController.JS
 ({
   handleFireApplicationEvent : function(component, event, helper) {
-    var params = event.getParam("arguments");
-    var appEvent = $A.get("e.c:ServiceAppEvent");
+    let params = event.getParam("arguments");
+    let appEvent = $A.get("e.c:ServiceAppEvent");
     
     appEvent.setParams({
       appEventKey : params.eventKey,
@@ -150,8 +150,8 @@ Controller:
     appEvent.fire();
   },
   handleFireComponentEvent : function(component, event, helper) {
-    var params = event.getParam("arguments");
-    var compEvent = component.getEvent("ServiceCompEvent");
+    let params = event.getParam("arguments");
+    let compEvent = component.getEvent("ServiceCompEvent");
     
     compEvent.setParams({
       compEventKey : params.eventKey,
@@ -177,13 +177,15 @@ Controller:
 ```javascript
 // MyCmpController.js
 handleApplicationEvent : function(component, event, helper) {
-  var params = event.getParams();
-
-  if (params.appEventKey == "ACCOUNT_ID_SELECTED") {
-    console.log("Do something with the value: " + params.appEventValue);
-  }
-  if (params.appEventKey == "HEADER_CLEARTABLE") {
-    component.set("v.tableData", null);
+  let params = event.getParams();
+  switch(params.appEventKey) {
+    case "ACCOUNT_ID_SELECTED": // fallthrough
+    case "CONTACTS_UPDATED":
+      helper.loadContactTable(component, params.appEventValue);
+      break;
+    case "HEADER_CLEARTABLE":
+      component.set("v.tableData", null);
+      break;
   }
 },
 ```
@@ -203,13 +205,15 @@ Component:
 <!-- MessageService.cmp -->
 <aura:component>
   <lightning:overlayLibrary aura:id="overlayLib"/>
-  <aura:method name="modal" action="{! c.handleModal }">
-    <aura:attribute name="auraId" type="string" default="modal"/>
+
+  <aura:method name="modal" action="{! c.createOverlayModal }">
+    <aura:attribute name="auraId" type="String" default="modal"/>
     <aura:attribute name="headerLabel" type="String"/>
     <aura:attribute name="body" type="String"/>
     <aura:attribute name="bodyParams" type="Object"/>
     <aura:attribute name="mainActionReference" type="String"/>
     <aura:attribute name="mainActionLabel" type="String" default="Save"/>
+    <aura:attribute name="callback" type="function"/> <!-- for modal promise -->
   </aura:method>
 </aura:component>
 ```
@@ -217,21 +221,21 @@ Creating the modal from MyCmp:
 ```javascript
 // MyCmpController.Js
 handleOpenComponentModal : function(component, event, helper) {
-  var selectedArr = component.find("searchTable").getSelectedRows();
+  let selectedArr = component.find("searchTable").getSelectedRows();
 
   helper.messageService(component).modal(
     "update-address-modal",
     "Update Address: "+selectedArr.length+" Row(s)",
-    "c:ServiceSmallSection",
+    "c:ContactAddressForm",
     {
-      "contactList": selectedArr
+      contactList: selectedArr
     },
     "c.handleUpdateMultiAddress",
     "Update"
   );
 },
 ```
-The modal component function being referenced (on c:ServiceSmallSection):
+The modal component function being referenced (on c:ContactAddressForm):
 ```javascript
 // ServiceSmallSectionController.js
 handleUpdateMultiAddress : function(component, event, helper) {
