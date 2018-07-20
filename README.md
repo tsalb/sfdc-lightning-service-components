@@ -224,14 +224,14 @@ handleOpenComponentModal : function(component, event, helper) {
   let selectedArr = component.find("searchTable").getSelectedRows();
 
   helper.messageService(component).modal(
-    "update-address-modal",
-    "Update Address: "+selectedArr.length+" Row(s)",
-    "c:ContactAddressForm",
+    "update-address-modal",                           // auraId
+    "Update Address: "+selectedArr.length+" Row(s)",  // headerLabel
+    "c:ContactAddressForm",                           // body, MessageService will dynamically create this
     {
-      contactList: selectedArr
+      contactList: selectedArr                        // bodyParams, MessageService will dynamically inject this into the previous body
     },
-    "c.handleUpdateMultiAddress",
-    "Update"
+    "c.handleUpdateMultiAddress",                     // mainActionReference, see above on where you can feed this
+    "Update"                                          // mainActionLabel
   );
 },
 ```
