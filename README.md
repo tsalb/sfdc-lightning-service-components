@@ -77,10 +77,9 @@ Notice the `service.fetchAccountCombobox` method call above. This is something t
   </aura:method>
 </aura:component>
 ```
+**DataServiceController.js**
 
 No parameters or storables are set against the `action` here in `DataServiceController.js`:
-
-**DataServiceController.js**
 ```javascript
 ({
   handleFetchAccountCombobox : function(component, event, helper) {
@@ -221,7 +220,7 @@ handleOpenComponentModal : function(component, event, helper) {
 },
 ```
 
-The above `c.handleUpdateMultiAddress` is a reference to a function found on `ContactAddressForm.cmp`. MessageService is able to grab reference appropriately and put wire it up to the `Update` main action found in the modal.
+The above `c.handleUpdateMultiAddress` is a reference to a function found on `ContactAddressForm.cmp`. `MessageService.cmp` is able to grab reference appropriately and put wire it up to the `Update` main action found in the modal.
 
 **ContactAddressFormController.js**
 ```javascript
