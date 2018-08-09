@@ -35,17 +35,17 @@ This sample app doesn't showcase dynamic page layouts and conditional render bas
 
 ## DataService Usage Example
 Drop this into a component that needs serverside data:
+
+**ServiceHeader.cmp**
 ```xml
-<!-- ServiceHeader.cmp -->
 <aura:component implements="flexipage:availableForAllPageTypes">
   <c:DataService aura:id="service"/> 
   <aura:handler name="init" value="{! this }" action="{! c.doInit }"/>
 </aura:component>
 ```
 
-And on the component's controller:
+**ServiceHeaderController.js**
 ```javascript
-// ServiceHeaderController.js
 doInit: function (component, event, helper) {
 
   helper.service(component).fetchAccountCombobox(
@@ -58,7 +58,7 @@ doInit: function (component, event, helper) {
 },
 ```
 
-And on the component's helper:
+**ServiceHeaderHelper.js**
 ```javascript
 // ServiceHeaderHelper.js
 service : function(component) {
@@ -68,17 +68,20 @@ service : function(component) {
 
 ## Wiring Up DataService
 Notice the `service.fetchAccountCombobox` method call above. This is something that is defined in the Service Component like below. Notice this method doesn't have any parameters, only a callback:
+
+**DataService.cmp**
 ```xml
-<!-- DataService.cmp -->
 <aura:component controller="DataServiceCtrl">
   <aura:method name="fetchAccountCombobox" action="{! c.handleFetchAccountCombobox }">
     <aura:attribute name="callback" type="function"/>
   </aura:method>
 </aura:component>
 ```
-No parameters or storables are set against the `action` here in `DataService.cmp`:
+
+No parameters or storables are set against the `action` here in `DataServiceController.js`:
+
+**DataServiceController.js**
 ```javascript
-// DataServiceController.js
 ({
   handleFetchAccountCombobox : function(component, event, helper) {
     let params = event.getParam("arguments");
@@ -87,7 +90,7 @@ No parameters or storables are set against the `action` here in `DataService.cmp
   }
 })
 ```
-And the component `helper`:
+**DataServiceHelper.js**
 ```javascript
 ({
   dispatchAction : function(component, action, params) {
@@ -116,9 +119,8 @@ helper.eventService(component).fireAppEvent("HEADER_CLEARTABLE");
 ## How EventService is wired
 `EventService.cmp` can handle key-value parameter pairs. Drop in `EventService.cmp` into any component that needs to fire an application or component event.
 
-Component:
+**EventService.cmp**
 ```xml
-<!-- EventService.cmp -->
 <aura:component >
   <aura:registerEvent name="ServiceAppEvent" type="c:ServiceAppEvent"/>
   <aura:registerEvent name="ServiceCompEvent" type="c:ServiceCompEvent"/>
@@ -134,9 +136,8 @@ Component:
   </aura:method>
 </aura:component>
 ```
-Controller:
+**EventServiceController.js**
 ```javascript
-// EventServiceController.JS
 ({
   handleFireApplicationEvent : function(component, event, helper) {
     let params = event.getParam("arguments");
@@ -166,16 +167,16 @@ Controller:
 ## Handling events in EventService
 In any component that needs to listen to either an Application or Component event, handle it like this:
 
-Component:
+**ContactDatatable.cmp**
 ```xml
-// MyCmp.cmp
 <aura:component>
+  ...
   <aura:handler event="c:ServiceAppEvent" action="{! c.handleApplicationEvent }"/>
+  ...
 </aura:component>
 ```
-Controller:
+**ContactDatatableController.js**
 ```javascript
-// MyCmpController.js
 handleApplicationEvent : function(component, event, helper) {
   let params = event.getParams();
   switch(params.appEventKey) {
@@ -200,26 +201,10 @@ At its core, this is a wrapper around the lightning:overlayLibrary which provide
   - On the modal component (the body) that's being created by using `"c.someFunctionOnTheModalComponent"`.
 - Pass an Object of parameters to the modal component (the body) from the originating component by using object notation while setting up the modal.
 
-Component: 
-```xml
-<!-- MessageService.cmp -->
-<aura:component>
-  <lightning:overlayLibrary aura:id="overlayLib"/>
+When you drop in `MessageService.cmp` into a component, such as `ContactDatatable.cmp`, this is an example of how you can open a modal from a function in `ContactDatatableController.js`.
 
-  <aura:method name="modal" action="{! c.createOverlayModal }">
-    <aura:attribute name="auraId" type="String" default="modal"/>
-    <aura:attribute name="headerLabel" type="String"/>
-    <aura:attribute name="body" type="String"/>
-    <aura:attribute name="bodyParams" type="Object"/>
-    <aura:attribute name="mainActionReference" type="String"/>
-    <aura:attribute name="mainActionLabel" type="String" default="Save"/>
-    <aura:attribute name="callback" type="function"/> <!-- for modal promise -->
-  </aura:method>
-</aura:component>
-```
-Creating the modal from MyCmp:
+**ContactDatatableController.js**
 ```javascript
-// MyCmpController.Js
 handleOpenComponentModal : function(component, event, helper) {
   let selectedArr = component.find("searchTable").getSelectedRows();
 
@@ -235,9 +220,11 @@ handleOpenComponentModal : function(component, event, helper) {
   );
 },
 ```
-The modal component function being referenced (on c:ContactAddressForm):
+
+The above `c.handleUpdateMultiAddress` is a reference to a function found on `ContactAddressForm.cmp`. MessageService is able to grab reference appropriately and put wire it up to the `Update` main action found in the modal.
+
+**ContactAddressFormController.js**
 ```javascript
-// ServiceSmallSectionController.js
 handleUpdateMultiAddress : function(component, event, helper) {
   helper.updateMultiAddress(component);
 },
