@@ -35,7 +35,7 @@ This sample app doesn't showcase dynamic page layouts and conditional render bas
 
 ## DataService Usage Example
 Drop this into a component that needs serverside data:
-```html
+```xml
 <!-- ServiceHeader.cmp -->
 <aura:component implements="flexipage:availableForAllPageTypes">
   <c:DataService aura:id="service"/> 
@@ -68,7 +68,7 @@ service : function(component) {
 
 ## Wiring Up DataService
 Notice the `service.fetchAccountCombobox` method call above. This is something that is defined in the Service Component like below. Notice this method doesn't have any parameters, only a callback:
-```html
+```xml
 <!-- DataService.cmp -->
 <aura:component controller="DataServiceCtrl">
   <aura:method name="fetchAccountCombobox" action="{! c.handleFetchAccountCombobox }">
@@ -117,7 +117,7 @@ helper.eventService(component).fireAppEvent("HEADER_CLEARTABLE");
 `EventService.cmp` can handle key-value parameter pairs. Drop in `EventService.cmp` into any component that needs to fire an application or component event.
 
 Component:
-```html
+```xml
 <!-- EventService.cmp -->
 <aura:component >
   <aura:registerEvent name="ServiceAppEvent" type="c:ServiceAppEvent"/>
@@ -167,7 +167,7 @@ Controller:
 In any component that needs to listen to either an Application or Component event, handle it like this:
 
 Component:
-```html
+```xml
 // MyCmp.cmp
 <aura:component>
   <aura:handler event="c:ServiceAppEvent" action="{! c.handleApplicationEvent }"/>
@@ -201,7 +201,7 @@ At its core, this is a wrapper around the lightning:overlayLibrary which provide
 - Pass an Object of parameters to the modal component (the body) from the originating component by using object notation while setting up the modal.
 
 Component: 
-```html
+```xml
 <!-- MessageService.cmp -->
 <aura:component>
   <lightning:overlayLibrary aura:id="overlayLib"/>
