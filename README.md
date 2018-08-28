@@ -220,7 +220,7 @@ handleOpenComponentModal : function(component, event, helper) {
 },
 ```
 
-The above `c.handleUpdateMultiAddress` is a reference to a function found on `ContactAddressForm.cmp`. `MessageService.cmp` is able to grab reference appropriately and wire it up to the `Update` main action found in the modal footer.
+The above `c.handleUpdateMultiAddress` is a reference to a function found on `ContactAddressForm.cmp`. `MessageService.cmp` is able to grab reference appropriately and wire it up to the `Update` main action found in the modal footer. So, even though overlayLibrary `modalBody` and `modalFooter` are siblings, the footer is referencing a controller action on the body. This makes it easier to write all your container logic on a `modalBody` and leverage `MessageService.cmp` to just open a self-contained `modalBody` component.
 
 **ContactAddressFormController.js**
 ```javascript
