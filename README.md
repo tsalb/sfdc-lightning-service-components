@@ -19,7 +19,7 @@ Having no component hierarchy makes it more simple to place components anywhere 
 
 ---
 
-The three primary service components are:
+The four primary service components are:
 
 `DataService.cmp` which encapsulates serverside callouts. A single Apex Controller is attributed to this headless component which uses methods to pass parameters to the JS controller which handles serverside configuration like `action.setStorable()` or `action.setParams()`.
 
@@ -29,7 +29,9 @@ This will be passed to `helper.dispatch()` to make the asynchronous callout.
 
 This sample app doesn't showcase dynamic page layouts and conditional render based on `Status__c` or similar. It's meant to show only Service Component architecture and usage.
 
-`MessageService.cmp` is for toasts, modals and (coming) notifications.
+`MessageService.cmp` is for toasts and modals
+
+`QuickUpdateService.cmp` is a wrapper around Lightning Data Service (`force:recordData`) that can help with quick single-object, single-record DMLs. The use case is you can attach this to a button click in the UI and let LDS handle FLS and CRUD.
 
 ---
 
