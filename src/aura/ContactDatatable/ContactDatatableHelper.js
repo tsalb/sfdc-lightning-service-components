@@ -8,6 +8,9 @@
   eventService : function(component) {
     return component.find("eventService");
   },
+  quickUpdateService : function(component) {
+    return component.find("quickUpdateService");
+  },
   getTableColumnDefinition : function () {
     let tableColumns = [
       {
@@ -52,7 +55,16 @@
         label: "Country",
         fieldName: "MailingCountry",
         type: "text",
-      }
+      },
+      {
+        label: '',
+        type: 'button',
+        initialWidth: 135,
+        typeAttributes: {
+          label: 'Clear Address',
+          name: 'clear_address',
+          title: 'Click to clear out Mailing Address'}
+        },
     ];
     return tableColumns;
   },

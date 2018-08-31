@@ -19,7 +19,7 @@ Having no component hierarchy makes it more simple to place components anywhere 
 
 ---
 
-The three primary service components are:
+The four primary service components are:
 
 `DataService.cmp` which encapsulates serverside callouts. A single Apex Controller is attributed to this headless component which uses methods to pass parameters to the JS controller which handles serverside configuration like `action.setStorable()` or `action.setParams()`.
 
@@ -29,7 +29,9 @@ This will be passed to `helper.dispatch()` to make the asynchronous callout.
 
 This sample app doesn't showcase dynamic page layouts and conditional render based on `Status__c` or similar. It's meant to show only Service Component architecture and usage.
 
-`MessageService.cmp` is for toasts, modals and (coming) notifications.
+`MessageService.cmp` is for toasts and modals
+
+`QuickUpdateService.cmp` is a wrapper around Lightning Data Service (`force:recordData`) that can help with quick single-object, single-record DMLs. The use case is you can attach this to a button click in the UI and let LDS handle FLS and CRUD.
 
 ---
 
@@ -230,3 +232,54 @@ handleUpdateMultiAddress : function(component, event, helper) {
 ```
 
 So, even though overlayLibrary `modalBody` and `modalFooter` are siblings, the footer is referencing a controller action on the body. This makes it easier to write all your container logic on a `modalBody` and leverage `MessageService.cmp` to just open a self-contained `modalBody` component.
+
+
+## QuickUpdateService Usage Examples
+At its core, this is a wrapper around force:recordData which allows for simple single record DML.
+
+This example from `ContactDatatable.cmp` uses a single button to update multiple fields on a single record. The only attributes `QuickUpdateService.cmp` expects is a `configObject` containing the `recordId` and `fieldUpdates` properties.
+
+Currently, there is no type checking or much error handling.
+
+**ContactDatatableController.js**
+```javascript
+  handleRowAction: function (component, event, helper) {
+    let action = event.getParam('action');
+    let row = event.getParam('row');
+    switch (action.name) {
+      case 'clear_address':
+        // QuickUpdateService.cmp expects recordId and fieldUpdates attributes, they are parsed internally 
+        let configObject = {
+          recordId: row["Id"],
+          fieldUpdates: {
+            "MailingStreet": null,
+            "MailingCity": null,
+            "MailingState": null,
+            "MailingPostalCode": null,
+            "MailingCountry": null
+          }
+        }
+        helper.quickUpdateService(component).LDS_Update(
+          configObject,
+          $A.getCallback((saveResult) => {
+            switch(saveResult.state.toUpperCase()) {
+              case "SUCCESS":
+                helper.messageService(component).showToast(null, "Cleared Mailing Address.", "success");
+                helper.loadContactTable(component, row["AccountId"]);
+                break;
+              case "ERROR":
+                helper.messageService(component).showToast(
+                  null,
+                  "Error Clearing Mailing Address: "+JSON.stringify(saveResult.error),
+                  "error",
+                  10000,
+                  "sticky"
+                );
+                break;
+            }
+          })
+        );
+        break;
+    }
+  },
+```

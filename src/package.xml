@@ -9,6 +9,7 @@
         <members>ContactAddressForm</members>
         <members>ContactDatatable</members>
         <members>DataService</members>
+        <members>QuickUpdateService</members>
         <members>EventService</members>
         <members>MessageService</members>
         <members>ServiceAppEvent</members>
