@@ -17,7 +17,7 @@ Additionally, the Service Component design pattern allows wrapping of base light
 
 The four service components in this example are:
 
-`DataService.cmp` which encapsulates serverside callouts. A single Apex Controller is attributed to this headless component which uses methods to pass parameters to the JS controller which handles serverside configuration like `action.setStorable()` or `action.setParams()`. This will be passed to `helper.dispatch()` to make the asynchronous callout.
+`DataService.cmp` which encapsulates serverside callouts. A single Apex Controller is attributed to this headless component which uses `aura:methods` to pass parameters to the JS controller which handles serverside configuration like `action.setStorable()` or `action.setParams()`. The action will be passed to `helper.dispatch()` to make the asynchronous callout.
 
 `EventService.cmp` which encapsulates a key-value pair (optional value) model for both application and component events. This component registers and fires generic events which need to be parsed by the handling component(s) via key-value.
 
