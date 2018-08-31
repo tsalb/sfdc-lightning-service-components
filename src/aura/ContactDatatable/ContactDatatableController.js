@@ -4,18 +4,18 @@
     let row = event.getParam('row');
     switch (action.name) {
       case 'clear_address':
-        let updateConfig = {
+        let configObject = {
           recordId: row["Id"],
           fieldUpdates: {
-            MailingStreet: null,
-            MailingCity: null,
-            MailingState: null,
-            MailingPostalCode: null,
-            MailingCountry: null
+            "MailingStreet": null,
+            "MailingCity": null,
+            "MailingState": null,
+            "MailingPostalCode": null,
+            "MailingCountry": null
           }
         }
         helper.quickUpdateService(component).LDS_Update(
-          updateConfig,
+          configObject,
           $A.getCallback((saveResult) => {
             switch(saveResult.state.toUpperCase()) {
               case "SUCCESS":
