@@ -4,13 +4,13 @@
         <componentInstances>
             <componentName>AccountSelector</componentName>
         </componentInstances>
+        <componentInstances>
+            <componentName>ContactDatatable</componentName>
+        </componentInstances>
         <name>region1</name>
         <type>Region</type>
     </flexiPageRegions>
     <flexiPageRegions>
-        <componentInstances>
-            <componentName>ContactDatatable</componentName>
-        </componentInstances>
         <name>region2</name>
         <type>Region</type>
     </flexiPageRegions>

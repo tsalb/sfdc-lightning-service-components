@@ -44,7 +44,10 @@
     let simpleRecord = component.get("v.simpleRecord");
 
     for (let apiName of fieldApiNameToUpdateValueMap.keys()) {
-      simpleRecord[apiName] = fieldApiNameToUpdateValueMap.get(apiName);
+      let updateValue = fieldApiNameToUpdateValueMap.get(apiName);
+      simpleRecord[apiName] = $A.util.isUndefinedOrNull(updateValue) || $A.util.isEmpty(updateValue) || updateValue === "null"
+        ? null
+        : updateValue;
     }
     component.find("lds").saveRecord(
       $A.getCallback((saveResult) => {
