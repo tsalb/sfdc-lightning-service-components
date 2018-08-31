@@ -248,7 +248,7 @@ Currently, there is no type checking or much error handling.
     switch (action.name) {
       case 'clear_address':
         // QuickUpdateService.cmp expects recordId and fieldUpdates attributes, they are parsed internally 
-        let updateConfig = {
+        let configObject = {
           recordId: row["Id"],
           fieldUpdates: {
             "MailingStreet": null,
@@ -259,7 +259,7 @@ Currently, there is no type checking or much error handling.
           }
         }
         helper.quickUpdateService(component).LDS_Update(
-          updateConfig,
+          configObject,
           $A.getCallback((saveResult) => {
             switch(saveResult.state.toUpperCase()) {
               case "SUCCESS":
