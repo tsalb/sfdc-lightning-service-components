@@ -1,14 +1,10 @@
 # sfdc-lightning-service-components
 
-This design pattern is an implementation of the following artice found on salesforce dev blogs: https://developer.salesforce.com/blogs/developer-relations/2016/12/lightning-components-code-sharing.html
-
-We can more fully leverage the new Winter 18 dynamic lightning page layouts using this pattern. Since it's now possible to handle conditional render of components (both native and custom) via platform config, it makes sense to move conditional render of an entire component "card" to platform config.
-
-The platform's new dynamic lightning page layouts can be leveraged to "re-configure" the page more akin to a SPA when paired with something like an object's `Status__c` field. Using this design pattern, we can leverage both native and custom lightning components on a record home page and use `Status__c` to show a different set of components on each status.
-
 The Service Component design pattern makes it easy for custom components placed separately from each other (not having any parent-child hierarchy) to easily share a single Apex Controller and reduce redundancy of inter-component communication through key-value events.
 
 Having no component hierarchy makes it more simple to place components anywhere on a lightning page and allowing more flexibility of creating a dynamic user experience out of mixing native and custom components.
+
+Additionally, the Service Component design pattern allows wrapping of base lightning components to provide much more utility than what is currently offered.
 
 **tl;dr: Deploy > App Launcher > Service Components**
 
@@ -19,19 +15,15 @@ Having no component hierarchy makes it more simple to place components anywhere 
 
 ---
 
-The four primary service components are:
+The four service components in this example are:
 
-`DataService.cmp` which encapsulates serverside callouts. A single Apex Controller is attributed to this headless component which uses methods to pass parameters to the JS controller which handles serverside configuration like `action.setStorable()` or `action.setParams()`.
-
-This will be passed to `helper.dispatch()` to make the asynchronous callout.
+`DataService.cmp` which encapsulates serverside callouts. A single Apex Controller is attributed to this headless component which uses methods to pass parameters to the JS controller which handles serverside configuration like `action.setStorable()` or `action.setParams()`. This will be passed to `helper.dispatch()` to make the asynchronous callout.
 
 `EventService.cmp` which encapsulates a key-value pair (optional value) model for both application and component events. This component registers and fires generic events which need to be parsed by the handling component(s) via key-value.
 
-This sample app doesn't showcase dynamic page layouts and conditional render based on `Status__c` or similar. It's meant to show only Service Component architecture and usage.
+`MessageService.cmp` which wraps `lightning:overlayLibrary` and provides dynamic creation `aura:methods` for modal bodies and footers.
 
-`MessageService.cmp` is for toasts and modals
-
-`QuickUpdateService.cmp` is a wrapper around Lightning Data Service (`force:recordData`) that can help with quick single-object, single-record DMLs. The use case is you can attach this to a button click in the UI and let LDS handle FLS and CRUD.
+`QuickUpdateService.cmp` which wraps Lightning Data Service (i.e. `force:recordData`) and provides an `aura:method` to very quickly configure a single-object, single-record DML to any sObject. Since this uses LDS, profile security is respected. This is a POC component.
 
 ---
 
