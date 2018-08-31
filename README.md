@@ -232,3 +232,53 @@ handleUpdateMultiAddress : function(component, event, helper) {
 ```
 
 So, even though overlayLibrary `modalBody` and `modalFooter` are siblings, the footer is referencing a controller action on the body. This makes it easier to write all your container logic on a `modalBody` and leverage `MessageService.cmp` to just open a self-contained `modalBody` component.
+
+## QuickUpdateService Usage Examples
+At its core, this is a wrapper around force:recordData which allows for simple single record DML.
+
+This example from `ContactDatatable.cmp` uses a single button to update multiple fields on a single record. The only attributes `QuickUpdateService.cmp` expects is a `configObject` containing the `recordId` and `fieldUpdates` properties.
+
+Currently, there is no type checking or much error handling.
+
+**ContactDatatableController.js**
+```javascript
+  handleRowAction: function (component, event, helper) {
+    let action = event.getParam('action');
+    let row = event.getParam('row');
+    switch (action.name) {
+      case 'clear_address':
+        // QuickUpdateService.cmp expects recordId and fieldUpdates attributes, they are parsed internally 
+        let updateConfig = {
+          recordId: row["Id"],
+          fieldUpdates: {
+            "MailingStreet": null,
+            "MailingCity": null,
+            "MailingState": null,
+            "MailingPostalCode": null,
+            "MailingCountry": null
+          }
+        }
+        helper.quickUpdateService(component).LDS_Update(
+          updateConfig,
+          $A.getCallback((saveResult) => {
+            switch(saveResult.state.toUpperCase()) {
+              case "SUCCESS":
+                helper.messageService(component).showToast(null, "Cleared Mailing Address.", "success");
+                helper.loadContactTable(component, row["AccountId"]);
+                break;
+              case "ERROR":
+                helper.messageService(component).showToast(
+                  null,
+                  "Error Clearing Mailing Address: "+JSON.stringify(saveResult.error),
+                  "error",
+                  10000,
+                  "sticky"
+                );
+                break;
+            }
+          })
+        );
+        break;
+    }
+  },
+```
