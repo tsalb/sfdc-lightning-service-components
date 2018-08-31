@@ -13,6 +13,8 @@
 
   <aura:if isTrue="{! not(empty( v.tableData )) }">
     <lightning:card >
+      <aura:set attribute="title">
+      </aura:set>
       <aura:set attribute="body">
         <div class="slds-border_top">
           <lightning:datatable aura:id="searchTable"
@@ -23,7 +25,7 @@
         </div>
       </aura:set>
       <aura:set attribute="actions">
-        <lightning:button label="Update Mailing Address" onclick="{! c.handleOpenComponentModal }"/>
+        <lightning:button label="Update Mailing Address" onclick="{! c.handleOpenUpdateAddressModal }"/>
       </aura:set>
     </lightning:card>
   </aura:if>

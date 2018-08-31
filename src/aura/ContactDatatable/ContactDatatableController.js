@@ -1,44 +1,17 @@
 ({
   handleRowAction: function (component, event, helper) {
-    let action = event.getParam('action');
-    let row = event.getParam('row');
+    let action = event.getParam("action");
+    let row = event.getParam("row");
     switch (action.name) {
-      case 'clear_address':
-        // QuickUpdateService only expects this object with recordId and fieldUpdates properties
-        let configObject = {
-          recordId: row["Id"],
-          fieldUpdates: {
-            "MailingStreet": null,
-            "MailingCity": null,
-            "MailingState": null,
-            "MailingPostalCode": null,
-            "MailingCountry": null
-          }
-        }
-        helper.quickUpdateService(component).LDS_Update(
-          configObject,
-          $A.getCallback((saveResult) => {
-            switch(saveResult.state.toUpperCase()) {
-              case "SUCCESS":
-                helper.messageService(component).showToast(null, "Cleared Mailing Address.", "success");
-                helper.loadContactTable(component, row["AccountId"]);
-                break;
-              case "ERROR":
-                helper.messageService(component).showToast(
-                  null,
-                  "Error Clearing Mailing Address: "+JSON.stringify(saveResult.error),
-                  "error",
-                  10000,
-                  "sticky"
-                );
-                break;
-            }
-          })
-        );
+      case "clear_address":
+        helper.clearMailingAddressWithLightningDataService(component, row);
+        break;
+      case  "view_cases":
+        helper.openViewCasesModal(component, row);
         break;
     }
   },
-  handleOpenComponentModal : function(component, event, helper) {
+  handleOpenUpdateAddressModal : function(component, event, helper) {
     let selectedArr = component.find("searchTable").getSelectedRows();
     if ($A.util.isEmpty(selectedArr)) {
       helper.messageService(component).showToast(

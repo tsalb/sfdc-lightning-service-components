@@ -9,6 +9,10 @@
         <apexClass>DataServiceCtrl</apexClass>
         <enabled>true</enabled>
     </classAccesses>
+    <classAccesses>
+        <apexClass>DataTableService</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
     <custom>false</custom>
     <tabVisibilities>
         <tab>SC_Sample_App</tab>

@@ -233,45 +233,79 @@ This example from `ContactDatatable.cmp` uses a single button to update multiple
 
 Currently, there is no type checking or much error handling.
 
-**ContactDatatableController.js**
+**ContactDatatableHelper.js**
 ```javascript
-  handleRowAction: function (component, event, helper) {
-    let action = event.getParam('action');
-    let row = event.getParam('row');
-    switch (action.name) {
-      case 'clear_address':
-        // QuickUpdateService.cmp expects recordId and fieldUpdates attributes, they are parsed internally 
-        let configObject = {
-          recordId: row["Id"],
-          fieldUpdates: {
-            "MailingStreet": null,
-            "MailingCity": null,
-            "MailingState": null,
-            "MailingPostalCode": null,
-            "MailingCountry": null
-          }
-        }
-        helper.quickUpdateService(component).LDS_Update(
-          configObject,
-          $A.getCallback((saveResult) => {
-            switch(saveResult.state.toUpperCase()) {
-              case "SUCCESS":
-                helper.messageService(component).showToast(null, "Cleared Mailing Address.", "success");
-                helper.loadContactTable(component, row["AccountId"]);
-                break;
-              case "ERROR":
-                helper.messageService(component).showToast(
-                  null,
-                  "Error Clearing Mailing Address: "+JSON.stringify(saveResult.error),
-                  "error",
-                  10000,
-                  "sticky"
-                );
-                break;
-            }
-          })
-        );
-        break;
+  clearMailingAddressWithLightningDataService : function(component, row) {
+    let _self = this;
+    let configObject = { // QuickUpdateService only expects this object with recordId and fieldUpdates properties
+      recordId: row["Id"],
+      fieldUpdates: {
+        "MailingStreet": null,
+        "MailingCity": null,
+        "MailingState": null,
+        "MailingPostalCode": null,
+        "MailingCountry": null
+      }
     }
+    _self.quickUpdateService(component).LDS_Update(
+      configObject,
+      $A.getCallback((saveResult) => {
+        switch(saveResult.state.toUpperCase()) {
+          case "SUCCESS":
+            _self.messageService(component).showToast(null, "Cleared Mailing Address.", "success");
+            _self.loadContactTable(component, row["AccountId"]);
+            break;
+          case "ERROR":
+            _self.messageService(component).showToast(
+              null,
+              "Error Clearing Mailing Address: "+JSON.stringify(saveResult.error),
+              "error",
+              10000,
+              "sticky"
+            );
+            break;
+        }
+      })
+    );
   },
+```
+
+
+## DataTableService Usage Examples
+This is a library service component. It's designed to make read-only lightning:datatable very quick to spin up.
+
+This example is from `CaseDatatable.cmp` (which is actually created inside a modal from `ContactDatatable.cmp`). The only attributes `DataTableService.cmp` expects is a `tableRequest` Object containing the `queryString` and `bindVars` properties.
+
+There is no way to fetch the more granular `tableColumns` specific configurations that are offered from `lightning:datatable` however it's possible to post-process the `tableColumns` data even futher serverside OR clientside.
+
+**CaseDatatableController.js**
+```javascript
+  doInit : function(component, event, helper) {
+    let contactRecordId = [].concat(component.get("v.contactRecordId")); // guarantees array for idSet
+    if (!$A.util.isUndefinedOrNull(contactRecordId)) {
+      let tableRequest = {
+        queryString: "SELECT "
+                    +"Id, CaseNumber, CreatedDate, ClosedDate, Description, Comments, Status, Subject, Type "
+                    +"FROM Case "
+                    +"WHERE ContactId =: idSet "
+                    +"ORDER BY CaseNumber ASC",
+        bindVars: {
+          idSet: contactRecordId,
+        }
+      }
+      helper.tableService(component).fetchData(
+        tableRequest,
+        $A.getCallback((error, data) => {
+          if (!$A.util.isUndefinedOrNull(data) && !$A.util.isEmpty(data)) {
+            component.set("v.tableData", data.tableData);
+            component.set("v.tableColumns", data.tableColumns);
+          } else {
+            if (!$A.util.isUndefinedOrNull(error) && error[0].hasOwnProperty("message")) {
+              helper.messageService(component).showToast(null, error[0].message, "error");
+            }
+          }
+        })
+      );
+    }
+  }
 ```

@@ -1,3 +1,8 @@
+/*************************************************************
+*  @author: James Hou, james@sparkworks.io
+*  Date: 8-2018
+**************************************************************/
+
 public with sharing class DataServiceCtrl {
 
   @AuraEnabled
