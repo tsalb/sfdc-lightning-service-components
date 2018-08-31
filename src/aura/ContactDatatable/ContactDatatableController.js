@@ -4,6 +4,7 @@
     let row = event.getParam('row');
     switch (action.name) {
       case 'clear_address':
+        // QuickUpdateService only expects this object with recordId and fieldUpdates properties
         let configObject = {
           recordId: row["Id"],
           fieldUpdates: {
