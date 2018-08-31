@@ -17,13 +17,15 @@ Additionally, the Service Component design pattern allows wrapping of base light
 
 The four service components in this example are:
 
-`DataService.cmp` which encapsulates serverside callouts. A single Apex Controller is attributed to this headless component which uses `aura:methods` to pass parameters to the JS controller which handles serverside configuration like `action.setStorable()` or `action.setParams()`. The action will be passed to `helper.dispatch()` to make the asynchronous callout.
+`DataService` which encapsulates serverside callouts. A single Apex Controller is attributed to this headless component which uses `aura:methods` to pass parameters to the JS controller which handles serverside configuration like `action.setStorable()` or `action.setParams()`. The action will be passed to `helper.dispatch()` to make the asynchronous callout.
 
-`EventService.cmp` which encapsulates a key-value pair (optional value) model for both application and component events. This component registers and fires generic events which need to be parsed by the handling component(s) via key-value.
+`EventService` which encapsulates a key-value pair (optional value) model for both application and component events. This component registers and fires generic events which need to be parsed by the handling component(s) via key-value.
 
-`MessageService.cmp` which wraps `lightning:overlayLibrary` and provides dynamic creation `aura:methods` for modal bodies and footers.
+`MessageService` which wraps `lightning:overlayLibrary` and provides dynamic creation `aura:methods` for modal bodies and footers.
 
-`QuickUpdateService.cmp` which wraps Lightning Data Service (i.e. `force:recordData`) and provides an `aura:method` to very quickly configure a single-object, single-record DML to any sObject. Since this uses LDS, profile security is respected. This is a POC component.
+`QuickUpdateService` which wraps Lightning Data Service (i.e. `force:recordData`) and provides an `aura:method` to very quickly configure a single-object, single-record DML to any sObject. Since this uses LDS, profile security is respected. This is a POC component.
+
+`DataTableService` which can quickly generate `tableData` and `tableColumns` in a format expected by `lightning:datatable`. It's designed primary for read-only tables, but it's still possible to perform further processing either serverside or clientside to configure `lightning:datatable` more granularly.
 
 ---
 
