@@ -233,6 +233,7 @@ handleUpdateMultiAddress : function(component, event, helper) {
 
 So, even though overlayLibrary `modalBody` and `modalFooter` are siblings, the footer is referencing a controller action on the body. This makes it easier to write all your container logic on a `modalBody` and leverage `MessageService.cmp` to just open a self-contained `modalBody` component.
 
+
 ## QuickUpdateService Usage Examples
 At its core, this is a wrapper around force:recordData which allows for simple single record DML.
 
