@@ -25,7 +25,7 @@ The service components in this sample app are:
 
 `QuickUpdateService` which wraps Lightning Data Service (i.e. `force:recordData`) and provides an `aura:method` to very quickly configure a single-object, single-record DML to any sObject. Since this uses LDS, profile security is respected. This is a POC component.
 
-`DataTableService` which can quickly generate `tableData` and `tableColumns` in a format expected by `lightning:datatable`. It's designed primary for read-only tables, but it's still possible to perform further processing either serverside or clientside to configure `lightning:datatable` more granularly.
+`DataTableService` which can quickly generate `tableData` and `tableColumns` in a format expected by `lightning:datatable`. It's designed primarily for read-only, single hierarchy tables. It's still possible to perform further processing either serverside or clientside to configure `lightning:datatable` more granularly. Currently, parent relationships are not handled, so until I can figure out a scalable way - please flatten your schema with formula fields.
 
 ---
 
@@ -279,6 +279,8 @@ This is a library service component. It's designed to make read-only lightning:d
 This example is from `CaseDatatable.cmp` (which is actually created inside a modal from `ContactDatatable.cmp`). The only attributes `DataTableService.cmp` expects is a `tableRequest` Object containing the `queryString` and `bindVars` properties.
 
 There is no way to fetch the more granular `tableColumns` specific configurations that are offered from `lightning:datatable` however it's possible to post-process the `tableColumns` data even futher serverside OR clientside.
+
+Currently, parent relationships are not handled, so until I can figure out a scalable way - please flatten your schema with formula fields.
 
 **CaseDatatableController.js**
 ```javascript
