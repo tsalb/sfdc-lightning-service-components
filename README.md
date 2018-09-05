@@ -254,17 +254,19 @@ Currently, there is no type checking or much error handling.
       $A.getCallback((saveResult) => {
         switch(saveResult.state.toUpperCase()) {
           case "SUCCESS":
-            _self.messageService(component).showToast(null, "Cleared Mailing Address.", "success");
+            _self.messageService(component).showToast({
+              message: "Cleared Mailing Address.",
+              variant: "success"
+            });
             _self.loadContactTable(component, row["AccountId"]);
             break;
           case "ERROR":
-            _self.messageService(component).showToast(
-              null,
-              "Error Clearing Mailing Address: "+JSON.stringify(saveResult.error),
-              "error",
-              10000,
-              "sticky"
-            );
+            _self.messageService(component).showToast({
+              title: "Error Clearing Mailing Address",
+              message: JSON.stringify(saveResult.error[0].message),
+              variant: "error",
+              mode: "pester"
+            });
             break;
         }
       })
@@ -286,7 +288,7 @@ Currently, parent relationships are not handled, so until I can figure out a sca
 ```javascript
   doInit : function(component, event, helper) {
     let contactRecordId = [].concat(component.get("v.contactRecordId")); // guarantees array for idSet
-    if (!$A.util.isUndefinedOrNull(contactRecordId)) {
+    if (!$A.util.isEmpty(contactRecordId)) {
       let tableRequest = {
         queryString: "SELECT "
                    + "Id, CaseNumber, CreatedDate, ClosedDate, Description, Comments, Status, Subject, Type "
@@ -300,12 +302,15 @@ Currently, parent relationships are not handled, so until I can figure out a sca
       helper.tableService(component).fetchData(
         tableRequest,
         $A.getCallback((error, data) => {
-          if (!$A.util.isUndefinedOrNull(data) && !$A.util.isEmpty(data)) {
+          if (!$A.util.isEmpty(data)) {
             component.set("v.tableData", data.tableData);
             component.set("v.tableColumns", data.tableColumns);
           } else {
-            if (!$A.util.isUndefinedOrNull(error) && error[0].hasOwnProperty("message")) {
-              helper.messageService(component).showToast(null, error[0].message, "error");
+            if (!$A.util.isEmpty(error) && error[0].hasOwnProperty("message")) {
+              helper.messageService(component).showToast({
+                message: error[0].message,
+                variant: "error"
+              });
             }
           }
         })
