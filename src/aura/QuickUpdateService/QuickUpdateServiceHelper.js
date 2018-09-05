@@ -9,7 +9,7 @@
       let recordId = params.configObject["recordId"];
       let fieldUpdates = params.configObject["fieldUpdates"];
 
-      if (!$A.util.isUndefinedOrNull(fieldUpdates)) {
+      if (!$A.util.isEmpty(fieldUpdates)) {
         Object.keys(fieldUpdates).forEach(function(v,i,a) {
           fieldApiNameToUpdateValueMap.set(v, fieldUpdates[v]);
         });
@@ -45,7 +45,7 @@
 
     for (let apiName of fieldApiNameToUpdateValueMap.keys()) {
       let updateValue = fieldApiNameToUpdateValueMap.get(apiName);
-      simpleRecord[apiName] = $A.util.isUndefinedOrNull(updateValue) || $A.util.isEmpty(updateValue) || updateValue === "null"
+      simpleRecord[apiName] = $A.util.isEmpty(updateValue) || updateValue === "null"
         ? null
         : updateValue;
     }

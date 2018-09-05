@@ -6,14 +6,23 @@
         }))
         .catch((error) => {
           $A.reportError("Promise Error", error);
-          helper.messageService(component).showToast(null, error, "error", 10000, "sticky");
+          helper.messageService(component).showToast({
+            message: error,
+            variant: "error",
+            mode: "pester"
+          });
         });
   },
   handleRecordUpdated : function(component, event, helper) {
     let changeType = event.getParams().changeType;
     switch(changeType.toUpperCase()) {
       case "ERROR":
-        helper.messageService(component).showToast(null, component.get("v.simpleRecordError"), "error", 10000, "sticky");
+        helper.messageService(component).showToast({
+          title: "Error in LDS",
+          message: component.get("v.simpleRecordError"),
+          variant: "error",
+          mode: "pester"
+        });
         break;
       case "LOADED" :
         component.set("v.lightningDataServiceLoaded", true);

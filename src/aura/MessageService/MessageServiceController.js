@@ -1,13 +1,7 @@
 ({
   handleShowToast : function(component, event, helper) {
-    let params = event.getParam("arguments");
-    helper.showToast(
-      params.title,
-      params.message,
-      params.type,
-      params.duration,
-      params.mode
-    );
+    // pass the config object through
+    helper.notificationsLib(component).showToast(event.getParam("arguments")["configObj"]);
   },
   createOverlayModal : function(component, event, helper) {
     let params = event.getParam("arguments");
@@ -18,7 +12,7 @@
           alert(error);
           return;
         }
-        if (modalBody.isValid() && !$A.util.isUndefinedOrNull(modalBody)) {
+        if (modalBody.isValid() && !$A.util.isEmpty(modalBody)) {
           // if mainActionReference has a c. prefix, it means we want an action on the body just created
           let str = String(params.mainActionReference);
           if (str.startsWith("c.")) {
@@ -30,7 +24,7 @@
                 alert(error);
                 return;
               }
-              if (mainAction.isValid() && !$A.util.isUndefinedOrNull(mainAction)) {
+              if (mainAction.isValid() && !$A.util.isEmpty(mainAction)) {
                 // Final assembly
                 $A.createComponent(
                   "c:modalFooter",
@@ -39,7 +33,7 @@
                   },
                   (completedFooter, status, errorMessage) => {
                     if (status === "SUCCESS") {
-                      component.find("overlayLib").showCustomModal({
+                      helper.overlayLib(component).showCustomModal({
                         header: params.headerLabel,
                         body: modalBody, 
                         footer: completedFooter,
@@ -47,7 +41,7 @@
                         cssClass: helper.defineLargeModalAttribute(params.isLargeModal)
                       })
                       .then($A.getCallback((overlay) => {
-                        if (!$A.util.isUndefinedOrNull(params.bodyParams)) {
+                        if (!$A.util.isEmpty(params.bodyParams)) {
                           Object.keys(params.bodyParams)
                             .forEach((v,i,a) => {
                               let valueProviderAdded = "v."+v;
@@ -55,7 +49,7 @@
                             });
                         }
                         helper.eventService(component).fireAppEvent("MODAL_READY");
-                        if (!$A.util.isUndefinedOrNull(params.callback)) {
+                        if (!$A.util.isEmpty(params.callback)) {
                           params.callback(overlay);
                         }
                       }));
@@ -81,22 +75,22 @@
           alert(error);
           return;
         }
-        if (modalBody.isValid() && !$A.util.isUndefinedOrNull(modalBody)) {
-            component.find("overlayLib").showCustomModal({
+        if (modalBody.isValid() && !$A.util.isEmpty(modalBody)) {
+            helper.overlayLib(component).showCustomModal({
               header: params.headerLabel,
               body: modalBody, 
               showCloseButton: true,
               cssClass: helper.defineLargeModalAttribute(params.isLargeModal)
             })
             .then($A.getCallback((overlay) => {
-              if (!$A.util.isUndefinedOrNull(params.bodyParams)) {
+              if (!$A.util.isEmpty(params.bodyParams)) {
                 Object.keys(params.bodyParams).forEach((v,i,a) => {
                   let valueProviderAdded = "v."+v;
                   modalBody.set(valueProviderAdded, params.bodyParams[v]);
                 });
               }
               helper.eventService(component).fireAppEvent("MODAL_READY");
-              if (!$A.util.isUndefinedOrNull(params.callback)) {
+              if (!$A.util.isEmpty(params.callback)) {
                 params.callback(overlay);
               }
             }));

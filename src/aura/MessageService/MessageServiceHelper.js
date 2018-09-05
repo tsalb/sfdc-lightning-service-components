@@ -2,20 +2,11 @@
   eventService : function(component) {
     return component.find("eventService");
   },
-  showToast : function(title, message, type, duration, mode) {
-    let toastType = (type ? type : "other");
-    let toastDuration = (duration ? parseInt(duration) : 5000);
-    let tostMode = (mode ? mode : "dismissible");
-    let toastEvent = $A.get("e.force:showToast");
-
-    toastEvent.setParams({
-      title: title,
-      message: message,
-      type: toastType,
-      duration: toastDuration,
-      mode: tostMode
-    });
-    toastEvent.fire();
+  overlayLib : function(component) {
+    return component.find("overlayLib");
+  },
+  notificationsLib : function(component) {
+    return component.find("notificationsLib");
   },
   createBody : function(params, ctrlCallback) {
     let componentType = params.body.split(":")[0];

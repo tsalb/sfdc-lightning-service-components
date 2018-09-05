@@ -94,17 +94,19 @@
       $A.getCallback((saveResult) => {
         switch(saveResult.state.toUpperCase()) {
           case "SUCCESS":
-            _self.messageService(component).showToast(null, "Cleared Mailing Address.", "success");
+            _self.messageService(component).showToast({
+              message: "Cleared Mailing Address.",
+              variant: "success"
+            });
             _self.loadContactTable(component, row["AccountId"]);
             break;
           case "ERROR":
-            _self.messageService(component).showToast(
-              null,
-              "Error Clearing Mailing Address: "+JSON.stringify(saveResult.error),
-              "error",
-              10000,
-              "sticky"
-            );
+            _self.messageService(component).showToast({
+              title: "Error Clearing Mailing Address",
+              message: JSON.stringify(saveResult.error[0].message),
+              variant: "error",
+              mode: "pester"
+            });
             break;
         }
       })
@@ -126,12 +128,16 @@
     _self.service(component).fetchContactsByAccountId(
       accountId,
       $A.getCallback((error, data) => {
-        if (!$A.util.isUndefinedOrNull(data)) {
+        if (!$A.util.isEmpty(data)) {
           component.set("v.tableData", data);
           component.set("v.tableColumns", _self.getTableColumnDefinition());
         } else {
-          if (!$A.util.isUndefinedOrNull(error) && error[0].hasOwnProperty("message")) {
-            _self.messageService(component).showToast(null, error[0].message, "error");
+          if (!$A.util.isEmpty(error) && error[0].hasOwnProperty("message")) {
+            _self.messageService(component).showToast({
+              message: error[0].message,
+              variant: "error",
+              mode: "pester"
+            });
           }
         }
       })

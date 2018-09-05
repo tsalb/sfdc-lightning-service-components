@@ -14,11 +14,9 @@
   handleOpenUpdateAddressModal : function(component, event, helper) {
     let selectedArr = component.find("searchTable").getSelectedRows();
     if ($A.util.isEmpty(selectedArr)) {
-      helper.messageService(component).showToast(
-        null,
-        "Please choose at least one Contact.",
-        "info"
-      );
+      helper.messageService(component).showToast({
+        message: "Please choose at least one Contact."
+      });
     } else {
       helper.messageService(component).modal(
         "update-address-modal",

@@ -2,13 +2,10 @@
 
   <c:EventService aura:id="eventService"/>
   <lightning:overlayLibrary aura:id="overlayLib"/>
+  <lightning:notificationsLibrary aura:id="notificationsLib"/>
 
   <aura:method name="showToast" action="{! c.handleShowToast }">
-    <aura:attribute name="title" type="String"/>
-    <aura:attribute name="message" type="String"/>
-    <aura:attribute name="type" type="String"/>
-    <aura:attribute name="duration" type="Integer"/>
-    <aura:attribute name="mode" type="String"/>
+    <aura:attribute name="configObj" type="Object"/>
   </aura:method>
 
   <aura:method name="modal" action="{! c.createOverlayModal }">
