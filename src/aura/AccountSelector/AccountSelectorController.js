@@ -6,7 +6,10 @@
         if (!$A.util.isEmpty(data)) {
           component.set("v.topAccounts", JSON.parse(data).items);
         } else {
-          helper.messageService(component).showToast(null, "No Accounts in org!", "error");
+          helper.messageService(component).showToast({
+            message: "No Accounts in org!",
+            variant: "error"
+          });
         }
       })
     );
