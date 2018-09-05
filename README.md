@@ -289,10 +289,10 @@ Currently, parent relationships are not handled, so until I can figure out a sca
     if (!$A.util.isUndefinedOrNull(contactRecordId)) {
       let tableRequest = {
         queryString: "SELECT "
-                    +"Id, CaseNumber, CreatedDate, ClosedDate, Description, Comments, Status, Subject, Type "
-                    +"FROM Case "
-                    +"WHERE ContactId =: idSet "
-                    +"ORDER BY CaseNumber ASC",
+                   + "Id, CaseNumber, CreatedDate, ClosedDate, Description, Comments, Status, Subject, Type "
+                   + "FROM Case "
+                   + "WHERE ContactId =: idSet "
+                   + "ORDER BY CaseNumber ASC",
         bindVars: {
           idSet: contactRecordId,
         }
