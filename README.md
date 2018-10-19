@@ -6,6 +6,8 @@ Having no component hierarchy makes it more simple to place components anywhere 
 
 Additionally, the Service Component design pattern allows wrapping of base lightning components to provide much more utility than what is currently offered.
 
+<!-- Image used for linking: https://imgur.com/du57QoD -->
+
 **tl;dr: Deploy > App Launcher > Service Components**
 
 <a href="https://githubsfdeploy.herokuapp.com?owner=tsalb&repo=sfdc-lightning-service-components&ref=master">
