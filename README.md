@@ -75,9 +75,7 @@ In any component that needs to listen to these, attach a handler like this:
 
 **ContactDatatable.cmp**
 ```xml
-...
 <aura:handler event="c:ServiceAppEvent" action="{! c.handleApplicationEvent }"/>
-...
 ```
 **ContactDatatableController.js**
 ```javascript
@@ -100,9 +98,9 @@ Using v44, we can leverage `lightning:empApi` to do this:
 
 **PlatformEventListener.cmp**
 ```xml
-  ...
-  <c:EventService aura:id="eventService" channel="/event/Contact_DML__e" onMessage="{! c.handleContactDmlEvent }"/>
-  ...
+<c:EventService aura:id="eventService" 
+  channel="/event/Contact_DML__e" 
+  onMessage="{! c.handleContactDmlEvent }"/>
 ```
 **ContactDatatableController.js**
 ```javascript
