@@ -32,7 +32,7 @@ The service components in this sample app are:
 ## DataService Usage Example
 Drop this into a component that needs serverside data:
 
-**ServiceHeader.cmp**
+**AccountSelector.cmp**
 ```xml
 <aura:component implements="flexipage:availableForAllPageTypes">
   <c:DataService aura:id="service"/> 
@@ -40,7 +40,7 @@ Drop this into a component that needs serverside data:
 </aura:component>
 ```
 
-**ServiceHeaderController.js**
+**AccountSelectorController.js**
 ```javascript
 doInit: function (component, event, helper) {
   helper.service(component).fetchAccountCombobox(
@@ -52,7 +52,7 @@ doInit: function (component, event, helper) {
   );
 },
 ```
-**ServiceHeaderHelper.js**
+**AccountSelectorHelper.js**
 ```javascript
 // ServiceHeaderHelper.js
 service : function(component) {
@@ -102,7 +102,7 @@ Using v44, we can leverage `lightning:empApi` to do this:
   channel="/event/Contact_DML__e" 
   onMessage="{! c.handleContactDmlEvent }"/>
 ```
-**ContactDatatableController.js**
+**PlatformEventListenerController.js**
 ```javascript
 handleContactDmlEvent : function(component, event, helper) {
   let payloadJSON = JSON.stringify(event.getParam("payload"));
