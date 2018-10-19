@@ -1,4 +1,4 @@
-# sfdc-lightning-service-components
+# Service Component Design Pattern
 
 The Service Component design pattern makes it easy for custom components placed separately from each other (not having any parent-child hierarchy) to easily share a single Apex Controller and reduce redundancy of inter-component communication through key-value events.
 
