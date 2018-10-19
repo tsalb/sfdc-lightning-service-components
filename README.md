@@ -19,7 +19,7 @@ The service components in this sample app are:
 
 `DataService` which encapsulates serverside callouts. A single Apex Controller is attributed to this headless component which uses `aura:methods` to pass parameters to the JS controller which handles serverside configuration like `action.setStorable()` or `action.setParams()`. The action will be passed to `helper.dispatch()` to make the asynchronous callout.
 
-`EventService` which encapsulates a key-value pair (optional value) model for both application and component events. This component registers and fires generic events which need to be parsed by the handling component(s) via key-value.
+`EventService` which encapsulates a key-value pair (optional value) model for both application and component events. This component registers and fires generic events which need to be parsed by the handling component(s) via key-value. There is a special recordEvent which is for Lightning Console (since app events broadcast to all console tabs). This can also listen to Platform Events easily and react to them (via `lightning:empApi`).
 
 `MessageService` which wraps `lightning:overlayLibrary` and provides dynamic creation `aura:methods` for modal bodies and footers.
 
@@ -43,7 +43,6 @@ Drop this into a component that needs serverside data:
 **ServiceHeaderController.js**
 ```javascript
 doInit: function (component, event, helper) {
-
   helper.service(component).fetchAccountCombobox(
     $A.getCallback((error, data) => {
       if (data) {
@@ -53,52 +52,12 @@ doInit: function (component, event, helper) {
   );
 },
 ```
-
 **ServiceHeaderHelper.js**
 ```javascript
 // ServiceHeaderHelper.js
 service : function(component) {
   return component.find("service");
 },
-```
-
-## Wiring Up DataService
-Notice the `service.fetchAccountCombobox` method call above. This is something that is defined in the Service Component like below. Notice this method doesn't have any parameters, only a callback:
-
-**DataService.cmp**
-```xml
-<aura:component controller="DataServiceCtrl">
-  <aura:method name="fetchAccountCombobox" action="{! c.handleFetchAccountCombobox }">
-    <aura:attribute name="callback" type="function"/>
-  </aura:method>
-</aura:component>
-```
-**DataServiceController.js**
-
-No parameters or storables are set against the `action` here in `DataServiceController.js`:
-```javascript
-({
-  handleFetchAccountCombobox : function(component, event, helper) {
-    let params = event.getParam("arguments");
-    let action = component.get("c.getAccountOptions");
-    helper.dispatchAction(component, action, params);
-  }
-})
-```
-**DataServiceHelper.js**
-```javascript
-({
-  dispatchAction : function(component, action, params) {
-    action.setCallback(this, (response) => {
-      if (response.getState() === "SUCCESS") {
-        params.callback(null, response.getReturnValue());
-      } else {
-        params.callback(response.getError());
-      }
-    });
-    $A.enqueueAction(action);
-  }
-})
 ```
 
 ## EventService Usage Examples
@@ -111,64 +70,14 @@ helper.eventService(component).fireAppEvent("HEADER_CLEARTABLE");
 
 ```
 
-## How EventService is wired
-`EventService.cmp` can handle key-value parameter pairs. Drop in `EventService.cmp` into any component that needs to fire an application or component event.
-
-**EventService.cmp**
-```xml
-<aura:component >
-  <aura:registerEvent name="ServiceAppEvent" type="c:ServiceAppEvent"/>
-  <aura:registerEvent name="ServiceCompEvent" type="c:ServiceCompEvent"/>
-
-  <aura:method name="fireAppEvent" action="{! c.handleFireApplicationEvent }">
-    <aura:attribute name="eventKey" type="String"/>
-    <aura:attribute name="eventValue" type="String"/>
-  </aura:method>
-
-  <aura:method name="fireCompEvent" action="{! c.handleFireComponentEvent }">
-    <aura:attribute name="eventKey" type="String"/>
-    <aura:attribute name="eventValue" type="String"/>
-  </aura:method>
-</aura:component>
-```
-**EventServiceController.js**
-```javascript
-({
-  handleFireApplicationEvent : function(component, event, helper) {
-    let params = event.getParam("arguments");
-    let appEvent = $A.get("e.c:ServiceAppEvent");
-    
-    appEvent.setParams({
-      appEventKey : params.eventKey,
-      appEventValue : params.eventValue
-    });
-    
-    appEvent.fire();
-  },
-  handleFireComponentEvent : function(component, event, helper) {
-    let params = event.getParam("arguments");
-    let compEvent = component.getEvent("ServiceCompEvent");
-    
-    compEvent.setParams({
-      compEventKey : params.eventKey,
-      compEventValue : params.eventValue
-    });
-    
-    compEvent.fire();
-  }
-})
-```
-
-## Handling events in EventService
-In any component that needs to listen to either an Application or Component event, handle it like this:
+## Handling App, Record, or Comp events with EventService
+In any component that needs to listen to these, attach a handler like this:
 
 **ContactDatatable.cmp**
 ```xml
-<aura:component>
-  ...
-  <aura:handler event="c:ServiceAppEvent" action="{! c.handleApplicationEvent }"/>
-  ...
-</aura:component>
+...
+<aura:handler event="c:ServiceAppEvent" action="{! c.handleApplicationEvent }"/>
+...
 ```
 **ContactDatatableController.js**
 ```javascript
@@ -184,6 +93,23 @@ handleApplicationEvent : function(component, event, helper) {
       break;
   }
 },
+```
+
+## Handling Platform Events with EventService
+Using v44, we can leverage `lightning:empApi` to do this:
+
+**PlatformEventListener.cmp**
+```xml
+  ...
+  <c:EventService aura:id="eventService" channel="/event/Contact_DML__e" onMessage="{! c.handleContactDmlEvent }"/>
+  ...
+```
+**ContactDatatableController.js**
+```javascript
+handleContactDmlEvent : function(component, event, helper) {
+  let payloadJSON = JSON.stringify(event.getParam("payload"));
+  component.set("v.payloadJSON", payloadJSON);
+}
 ```
 
 ## MessageService Usage Examples
@@ -208,7 +134,7 @@ handleOpenComponentModal : function(component, event, helper) {
     "Update Address: "+selectedArr.length+" Row(s)",  // headerLabel
     "c:ContactAddressForm",                           // body, MessageService will dynamically create this
     {
-      contactList: selectedArr                        // bodyParams, MessageService will dynamically inject this into the previous body
+      contactList: selectedArr                        // bodyParams, MessageService dynamically passes these to c:ContactAddressForm
     },
     "c.handleUpdateMultiAddress",                     // mainActionReference, see above on where you can feed this
     "Update"                                          // mainActionLabel
@@ -217,13 +143,6 @@ handleOpenComponentModal : function(component, event, helper) {
 ```
 
 The above `c.handleUpdateMultiAddress` is a reference to a function found on `ContactAddressForm.cmp`. `MessageService.cmp` is able to grab reference appropriately and wire it up to the `Update` main action found in the modal footer.
-
-**ContactAddressFormController.js**
-```javascript
-handleUpdateMultiAddress : function(component, event, helper) {
-  helper.updateMultiAddress(component);
-},
-```
 
 So, even though overlayLibrary `modalBody` and `modalFooter` are siblings, the footer is referencing a controller action on the body. This makes it easier to write all your container logic on a `modalBody` and leverage `MessageService.cmp` to just open a self-contained `modalBody` component.
 
