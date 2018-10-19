@@ -1,23 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Package xmlns="http://soap.sforce.com/2006/04/metadata">
     <types>
-        <members>DataServiceCtrl</members>
-        <members>DataTableService</members>
+        <members>*</members>
         <name>ApexClass</name>
     </types>
     <types>
-        <members>AccountSelector</members>
-        <members>CaseDatatable</members>
-        <members>ContactAddressForm</members>
-        <members>ContactDatatable</members>
-        <members>DataService</members>
-        <members>DataTableService</members>
-        <members>EventService</members>
-        <members>MessageService</members>
-        <members>modalFooter</members>
-        <members>QuickUpdateService</members>
-        <members>ServiceAppEvent</members>
-        <members>ServiceCompEvent</members>
+        <members>*</members>
         <name>AuraDefinitionBundle</name>
     </types>
     <types>
@@ -25,7 +13,11 @@
         <name>CustomApplication</name>
     </types>
     <types>
-        <members>SC_Sample_App</members>
+        <members>Contact_DML__e</members>
+        <name>CustomObject</name>
+    </types>
+    <types>
+        <members>*</members>
         <name>CustomTab</name>
     </types>
     <types>
@@ -34,8 +26,12 @@
         <name>FlexiPage</name>
     </types>
     <types>
+        <members>*</members>
+        <name>Flow</name>
+    </types>
+    <types>
         <members>Admin</members>
         <name>Profile</name>
     </types>
-    <version>43.0</version>
+    <version>44.0</version>
 </Package>

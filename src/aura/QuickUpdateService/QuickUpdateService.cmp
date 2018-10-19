@@ -8,6 +8,8 @@
     <aura:attribute name="callback" type="function"/>
   </aura:method>
 
+  <aura:attribute name="useSpinner" type="Boolean" default="true"/>
+
   <!-- private attributes -->
   <aura:attribute name="fieldUpdates" type="Object" access="private"/>
   <aura:attribute name="fieldApiNameToUpdateValueMap" type="Map" access="private"/>
@@ -24,7 +26,9 @@
     description="allows aura:if to initialize and destroy force:recordData"/>
 
   <aura:if isTrue="{! v.transactionInProgress }">
-    <lightning:spinner variant="brand" size="large" alternativeText="Updating with Lightning Data Service"/>
+    <aura:if isTrue="{! v.useSpinner }">
+      <lightning:spinner variant="brand" size="large" alternativeText="Updating with Lightning Data Service"/>
+    </aura:if>
     <force:recordData aura:id="lds"
       recordId="{! v.recordId }"
       fields="{! v.fields }"

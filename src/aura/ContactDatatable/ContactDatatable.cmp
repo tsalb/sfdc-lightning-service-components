@@ -11,11 +11,9 @@
   
   <aura:handler event="c:ServiceAppEvent" action="{! c.handleApplicationEvent }"/>
 
-  <aura:if isTrue="{! not(empty( v.tableData )) }">
-    <lightning:card >
-      <aura:set attribute="title">
-      </aura:set>
-      <aura:set attribute="body">
+  <lightning:card title="Contacts">
+    <aura:set attribute="body">
+      <aura:if isTrue="{! not(empty( v.tableData )) }">
         <div class="slds-border_top">
           <lightning:datatable aura:id="searchTable"
             data="{! v.tableData }" 
@@ -23,11 +21,13 @@
             onrowaction="{! c.handleRowAction }"
             keyField="Id"/>
         </div>
-      </aura:set>
-      <aura:set attribute="actions">
+      </aura:if>
+    </aura:set>
+    <aura:set attribute="actions">
+      <aura:if isTrue="{! not(empty( v.tableData )) }">
         <lightning:button label="Update Mailing Address" onclick="{! c.handleOpenUpdateAddressModal }"/>
-      </aura:set>
-    </lightning:card>
-  </aura:if>
+      </aura:if>
+    </aura:set>
+  </lightning:card>
 
 </aura:component>

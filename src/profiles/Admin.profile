@@ -14,6 +14,30 @@
         <enabled>true</enabled>
     </classAccesses>
     <custom>false</custom>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>Contact_DML__e.Timestamp__c</field>
+        <readable>false</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>Contact_DML__e.Type__c</field>
+        <readable>false</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>Contact_DML__e.Username__c</field>
+        <readable>false</readable>
+    </fieldPermissions>
+    <objectPermissions>
+        <allowCreate>true</allowCreate>
+        <allowDelete>true</allowDelete>
+        <allowEdit>true</allowEdit>
+        <allowRead>true</allowRead>
+        <modifyAllRecords>true</modifyAllRecords>
+        <object>Contact_DML__e</object>
+        <viewAllRecords>true</viewAllRecords>
+    </objectPermissions>
     <tabVisibilities>
         <tab>SC_Sample_App</tab>
         <visibility>DefaultOn</visibility>

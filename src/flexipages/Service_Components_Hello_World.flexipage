@@ -7,6 +7,9 @@
         <componentInstances>
             <componentName>ContactDatatable</componentName>
         </componentInstances>
+        <componentInstances>
+            <componentName>PlatformEventListener</componentName>
+        </componentInstances>
         <name>region1</name>
         <type>Region</type>
     </flexiPageRegions>
