@@ -235,7 +235,3 @@ Currently, parent relationships are not handled, so until I can figure out a sca
     }
   }
 ```
-<details><summary></summary>
-# Hidden Logo
-https://i.imgur.com/du57QoD.png
-</details>
