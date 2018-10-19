@@ -13,6 +13,10 @@ Additionally, the Service Component design pattern allows wrapping of base light
        src="https://raw.githubusercontent.com/afawcett/githubsfdeploy/master/deploy.png">
 </a>
 
+<a href="https://github.com/tsalb/sfdx-lightning-service-components">
+  SFDX Version
+</a>
+
 ---
 
 The service components in this sample app are:
