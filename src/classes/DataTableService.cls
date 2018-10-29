@@ -55,7 +55,7 @@ public with sharing class DataTableService {
     Map<String, Object> tableServiceResponse = new Map<String, Object>();
     List<SObject> tableData = DataTableService.getSObjectData(tableRequest);
     String queryString = (String)tableRequest.get(QUERY_STRING_KEY);
-    String sObjectName = queryString.substringAfterLast('FROM').split(' ').get(1); // don't depend on if there is a WHERE
+    String sObjectName = queryString.substringAfterLast(' FROM ').split(' ').get(0); // don't depend on if there is a WHERE, also in case FROM is in a field name
     SObject queryObject = Schema.getGlobalDescribe().get(sObjectName).newSObject();
 
     tableServiceResponse.put(TABLE_DATA_KEY, tableData);
