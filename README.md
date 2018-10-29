@@ -28,7 +28,7 @@ The service components in this sample app are:
 
 `QuickUpdateService` which wraps Lightning Data Service (i.e. `force:recordData`) and provides an `aura:method` to very quickly configure a single-object, single-record DML to any sObject. Since this uses LDS, profile security is respected. This is a POC component.
 
-`DataTableService` which can quickly generate `tableData` and `tableColumns` in a format expected by `lightning:datatable`. It's designed primarily for read-only, single hierarchy tables. It's still possible to perform further processing either serverside or clientside to configure `lightning:datatable` more granularly. Currently, parent relationships are not handled, so until I can figure out a scalable way - please flatten your schema with formula fields.
+`DataTableService` which can quickly generate `tableData` and `tableColumns` in a format expected by `lightning:datatable`. It's designed primarily for read-only, single hierarchy tables. It's still possible to perform further processing either serverside or clientside to configure `lightning:datatable` more granularly. Parent relationship (1 level tested) works and there are helper functions to flatten the data both serverside (column definition) and clientside (data definition).
 
 ---
 
@@ -202,7 +202,7 @@ This example is from `CaseDatatable.cmp` (which is actually created inside a mod
 
 There is no way to fetch the more granular `tableColumns` specific configurations that are offered from `lightning:datatable` however it's possible to post-process the `tableColumns` data even futher serverside OR clientside.
 
-Currently, parent relationships are not handled, so until I can figure out a scalable way - please flatten your schema with formula fields.
+There is simple handling of parent relationships fields.
 
 **CaseDatatableController.js**
 ```javascript
@@ -211,7 +211,7 @@ Currently, parent relationships are not handled, so until I can figure out a sca
     if (!$A.util.isEmpty(contactRecordId)) {
       let tableRequest = {
         queryString: "SELECT "
-                   + "Id, CaseNumber, CreatedDate, ClosedDate, Description, Comments, Status, Subject, Type "
+                   + "Id, CaseNumber, CreatedDate, ClosedDate, Description, Comments, Status, Subject, Type, Owner.Name"
                    + "FROM Case "
                    + "WHERE ContactId =: idSet "
                    + "ORDER BY CaseNumber ASC",
