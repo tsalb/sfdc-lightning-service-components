@@ -1,6 +1,5 @@
 /*************************************************************
 *  @author: James Hou, james@sparkworks.io
-*  Date: 8-2018
 **************************************************************/
 
 public with sharing class DataTableService {
@@ -50,18 +49,18 @@ public with sharing class DataTableService {
  */
   @AuraEnabled
   public static Map<String, Object> createTableCache(Map<String, Object> tableRequest) {
-    Map<String, Object> tableCache = new Map<String, Object>();
-
     if (!tableRequest.containsKey(QUERY_STRING_KEY)) {
       throw new AuraHandledException('tableService queryString is missing.');
     }
+    Map<String, Object> tableServiceResponse = new Map<String, Object>();
     List<SObject> tableData = DataTableService.getSObjectData(tableRequest);
+    String queryString = (String)tableRequest.get(QUERY_STRING_KEY);
+    String sObjectName = queryString.substringAfterLast('FROM').split(' ').get(1); // don't depend on if there is a WHERE
+    SObject queryObject = Schema.getGlobalDescribe().get(sObjectName).newSObject();
 
-    if (!tableData.isEmpty()) {
-      tableCache.put(TABLE_DATA_KEY, tableData);
-      tableCache.put(TABLE_COLUMNS_KEY, DataTableService.getColumnData((String)tableRequest.get(QUERY_STRING_KEY), tableData[0]));
-    }
-    return tableCache;
+    tableServiceResponse.put(TABLE_DATA_KEY, tableData);
+    tableServiceResponse.put(TABLE_COLUMNS_KEY, DataTableService.getColumnData(queryString, queryObject));
+    return tableServiceResponse;
   }
 
 /**
@@ -137,15 +136,42 @@ public with sharing class DataTableService {
     Map<String, Schema.SObjectField> fieldMap = queriedSObject.getSObjectType().getDescribe().fields.getMap();
 
     for (String fieldName : soqlColumns){
-      Schema.DescribeFieldResult field = fieldMap.get(fieldName).getDescribe();
+      Schema.DescribeFieldResult field;
+      Map<String, Object> fieldColumn = new Map<String, Object>();
 
-      // IDs are usually keyFields, so we skip display of this
-      if (field.getType() == Schema.DisplayType.ID) {
+      // History tables have this field, ignore this one
+      if (fieldname == 'created') {
         continue;
       }
-      Map<String, Object> fieldColumn = new Map<String, Object>();
-      fieldColumn.put('label', field.getLabel());
-      fieldColumn.put('fieldName', fieldName);
+      // Handles parent relationships, to a degree
+      if (fieldName.contains('.')) {
+        System.debug(fieldName);
+        String parentReference = fieldName.contains('__r')
+          ? fieldName.substringBeforeLast('__r.') + '__c' // custom objects
+          : fieldName.substringBeforeLast('.') + 'Id'; // standard objects typical schema
+        Schema.SObjectType referenceTo = fieldMap.get(parentReference).getDescribe().getReferenceTo().get(0);
+        field = referenceTo.getDescribe().fields.getMap().get(fieldName.substringAfterLast('.')).getDescribe();
+      } else {
+        field = fieldMap.get(fieldName).getDescribe();
+      }
+      System.debug('getColumnData field info: '+fieldName+' : '+field.getType());
+      // Minor validations
+      if (
+        field.getType() == Schema.DisplayType.ID  // IDs are usually keyFields, so we skip display of this
+        || field.getType() == Schema.DisplayType.Reference // References are lookups, need granular formatting so left to UI implementation
+        || !field.isAccessible() // Respect FLS
+      ) {
+        continue;
+      }
+      // Handles parent relationships, to a degree
+      if (fieldName.contains('.')) {
+        fieldColumn.put('label', fieldName.substringBeforeLast('.') +' '+ field.getLabel());
+        fieldColumn.put('fieldName', fieldName.replace('.', '_')); // handled clientside by DataTableServiceHelper.js
+      } else {
+        fieldColumn.put('label', field.getLabel());
+        fieldColumn.put('fieldName', fieldName);
+      }
+      // Final assembly
       fieldColumn.put('type', DISPLAY_TYPE_TO_DATATABLE_TYPE_MAP.get(field.getType()));
       tableColumns.add(fieldColumn);
     }

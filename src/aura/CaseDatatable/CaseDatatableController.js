@@ -4,7 +4,7 @@
     if (!$A.util.isEmpty(contactRecordId)) {
       let tableRequest = {
         queryString: "SELECT "
-                   + "Id, CaseNumber, CreatedDate, ClosedDate, Description, Comments, Status, Subject, Type "
+                   + "Id, CaseNumber, CreatedDate, ClosedDate, Description, Comments, Status, Subject, Type, Owner.Name "
                    + "FROM Case "
                    + "WHERE ContactId =: idSet "
                    + "ORDER BY CaseNumber ASC",
