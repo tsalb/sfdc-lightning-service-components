@@ -1,20 +1,19 @@
 # Service Component Design Pattern
 
-The Service Component design pattern makes it easy for custom components placed separately from each other (not having any parent-child hierarchy) to easily share a single Apex Controller and reduce redundancy of inter-component communication through key-value events.
+Lighting Web Components addresses many of the issues this design pattern sought to address, so moving forward I will be maintaining only the [lwc-utils repo](https://github.com/tsalb/lwc-utils) where you can find LWC specific design patterns (and utility modules) compared side by side with this deprecated aura service component framework.
 
-Having no component hierarchy makes it more simple to place components anywhere on a lightning page and allowing more flexibility of creating a dynamic user experience out of mixing native and custom components.
+~~The Service Component design pattern makes it easy for custom components placed separately from each other (not having any parent-child hierarchy) to easily share a single Apex Controller and reduce redundancy of inter-component communication through key-value events.~~
 
-Additionally, the Service Component design pattern allows wrapping of base lightning components to provide much more utility than what is currently offered.
+~~Having no component hierarchy makes it more simple to place components anywhere on a lightning page and allowing more flexibility of creating a dynamic user experience out of mixing native and custom components.~~
 
-**tl;dr: Deploy > App Launcher > Service Components**
+~~Additionally, the Service Component design pattern allows wrapping of base lightning components to provide much more utility than what is currently offered.~~
+
+~~**tl;dr: Deploy > App Launcher > Service Components**~~
 
 <a href="https://githubsfdeploy.herokuapp.com?owner=tsalb&repo=sfdc-lightning-service-components&ref=master">
   <img alt="Deploy to Salesforce"
        src="https://raw.githubusercontent.com/afawcett/githubsfdeploy/master/deploy.png">
 </a>
-
-
-SFDX repo <a href="https://github.com/tsalb/sfdx-lightning-service-components">here</a>
 
 ---
 
